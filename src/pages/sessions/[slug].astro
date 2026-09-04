@@ -3,10 +3,10 @@ import { render } from "astro:content";
 import { getPublishedCollection } from "astro-course-university/content";
 import RelatedContent from "astro-course-university/components/RelatedContent.astro";
 import SpecList from "astro-course-university/components/SpecList.astro";
-import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 import TeachingTeam from "../../components/TeachingTeam.astro";
 import { formatCourseDate } from "../../lib/dates";
-import { graphCollections, sessionLabels, siteConfig } from "../../site-config";
+import { graphCollections, sessionLabels } from "../../site-config";
 
 export async function getStaticPaths() {
   const sessions = await getPublishedCollection("sessions");
@@ -17,10 +17,9 @@ const { session } = Astro.props;
 const { Content } = await render(session);
 ---
 
-<ContentLayout
+<PageLayout
   title={`Week ${session.data.week} ${sessionLabels.singular}: ${session.data.title}`}
   description={session.data.description}
-  {...siteConfig}
 >
   <p><strong>{formatCourseDate(session.data.date)}</strong></p>
   <Content />
@@ -30,4 +29,4 @@ const { Content } = await render(session);
   </SpecList>
   <TeachingTeam teachers={session.data.teachers} />
   <RelatedContent entry={session} collections={graphCollections} />
-</ContentLayout>
+</PageLayout>

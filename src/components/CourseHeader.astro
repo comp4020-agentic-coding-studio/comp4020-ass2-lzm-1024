@@ -1,0 +1,60 @@
+---
+import { courseMeta } from "../course-config";
+import { withBase } from "astro-theme-university/url";
+---
+
+<header class="course-header">
+  <a class="course-header-link" href={withBase("/")}>
+    <span class="course-header-code">{courseMeta.code}</span>
+    <span class="course-header-title">{courseMeta.title}</span>
+    <span class="course-header-session">{courseMeta.session}, {courseMeta.year}</span>
+  </a>
+  <slot />
+</header>
+
+<style>
+  .course-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding: 0.75rem var(--at-gutter, 1rem);
+    border-bottom: 1px solid var(--at-border);
+    background: var(--at-bg-elevated, var(--at-bg));
+  }
+
+  .course-header-link {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    color: var(--at-text);
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  .course-header-link:hover .course-header-title {
+    text-decoration: underline;
+  }
+
+  .course-header-link:focus-visible {
+    outline: 2px solid var(--at-primary);
+    outline-offset: 2px;
+  }
+
+  .course-header-code {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .course-header-title {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .course-header-session {
+    color: var(--at-text-secondary);
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+</style>

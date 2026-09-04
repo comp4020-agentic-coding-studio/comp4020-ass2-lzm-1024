@@ -1,0 +1,104 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+import { sortByDue, sortByWeekThenDate } from "../lib/course-content";
+import { formatCourseDate } from "../lib/dates";
+import CoursePanel from "./CoursePanel.astro";
+
+const assessments = sortByDue(await getPublishedCollection("assessments"));
+const sessions = sortByWeekThenDate(await getPublishedCollection("sessions"));
+const lectures = sortByWeekThenDate(await getPublishedCollection("lectures"));
+
+const now = Date.now();
+// Prefer genuinely upcoming items; when none of the recorded dates are in
+// the future (placeholder content), fall back to the first few overall
+// rather than showing nothing.
+const upcomingAssessments = assessments.filter((a) => a.data.due.getTime() >= now);
+const todo = (upcomingAssessments.length > 0 ? upcomingAssessments : assessments).slice(0, 3);
+
+const upcomingSessions = [...sessions, ...lectures]
+  .filter((item) => item.data.date.getTime() >= now)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const comingUp = (upcomingSessions.length > 0 ? upcomingSessions : sortByWeekThenDate([...sessions, ...lectures])).slice(
+  0,
+  3,
+);
+---
+
+<div class="upcoming-rail">
+  <CoursePanel title="To do" headingLevel="h2">
+    {
+      todo.length > 0 ? (
+        <ul class="rail-list">
+          {todo.map((assessment) => (
+            <li>
+              <a href={withBase(`/assessments/${assessment.id}/`)}>{assessment.data.title}</a>
+              <span class="rail-meta">Due {formatCourseDate(assessment.data.due)}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="rail-empty">Nothing outstanding.</p>
+      )
+    }
+  </CoursePanel>
+
+  <CoursePanel title="Coming up" headingLevel="h2">
+    {
+      comingUp.length > 0 ? (
+        <ul class="rail-list">
+          {comingUp.map((item) => (
+            <li>
+              <a href={withBase(`/${item.collection}/${item.id}/`)}>{item.data.title}</a>
+              <span class="rail-meta">
+                Week {item.data.week} · {formatCourseDate(item.data.date)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="rail-empty">Nothing scheduled yet.</p>
+      )
+    }
+  </CoursePanel>
+
+  <CoursePanel title="Quick links" headingLevel="h2">
+    <ul class="rail-list rail-links">
+      <li><a href={withBase("/sessions/")}>Modules</a></li>
+      <li><a href={withBase("/lectures/")}>Lectures</a></li>
+      <li><a href={withBase("/assessments/")}>Assignments</a></li>
+      <li><a href={withBase("/people/")}>People</a></li>
+      <li><a href={withBase("/policies/")}>Policies</a></li>
+    </ul>
+  </CoursePanel>
+</div>
+
+<style>
+  .rail-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .rail-list li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rail-meta {
+    color: var(--at-text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .rail-empty {
+    margin: 0;
+    color: var(--at-text-secondary);
+  }
+
+  .rail-links {
+    gap: 0.4rem;
+  }
+</style>

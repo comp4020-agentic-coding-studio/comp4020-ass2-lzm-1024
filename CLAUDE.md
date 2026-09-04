@@ -88,3 +88,50 @@ one `styles.css`.
   or transition, disclose it rather than leaving it to be discovered.
   Meaningful content and feedback must remain usable under
   `prefers-reduced-motion: reduce`.
+
+### Platform gotchas discovered this build
+
+- **`.mdx` pages under `src/pages/` do not get the theme's auto-default-layout.**
+  `astro-theme-university` registers `@astrojs/mdx` plain (no
+  `extendMarkdownConfig` wiring for its custom remark chain), so
+  `remarkDefaultLayout` — the mechanism that injects `layout:` automatically —
+  only ever reaches `.md` pages, never `.mdx`, regardless of what
+  `astro.config.ts`'s `defaultLayout` option is set to. This is a bug in the
+  starter itself (confirmed by testing the untouched template), not something
+  a later edit can introduce. Any `.mdx` page under `src/pages/` needs its own
+  explicit `layout: ../../layouts/PageLayout.astro` frontmatter line, or it
+  silently renders as a bare, unstyled fragment with no shell, no nav — a 200
+  response with real content, so it won't show up as a build failure.
+- **On Windows, `pnpm build`/`pnpm check` crash after every route is already
+  built.** The theme's `astro:build:done` hook shells out to `npx pagefind`
+  via `execFile` without `shell: true`, which can't resolve `npx.cmd` on
+  Windows (`spawn npx ENOENT`), and the resulting unhandled rejection kills
+  the whole Node process (not just that hook) before later `astro:build:done`
+  hooks — including `course-graph`'s `dist/api/index.json` writer — get to
+  run. `dist/` itself is complete and correct at that point; only the crash
+  timing prevents `vitest run spec` from finding its fixture. This reproduces
+  identically on the pristine template, so it's an environment issue, not a
+  regression. Verify locally with `universityTheme({ search: false, ... })`
+  temporarily added to `astro.config.ts`, then **revert it** — search must
+  stay enabled for the real build; Linux CI's real `npx` binary doesn't hit
+  this at all.
+
+### App shell components (reuse these; don't rebuild them per page)
+
+`PageLayout.astro` renders `CourseHeader` + `CourseSidebar` + a `<h1>`/lead
+around every page's `<slot />` — every `.astro` page and every top-level
+`.mdx` index page should go through it (see the gotcha above for `.mdx`).
+`CoursePanel` is the shared bordered/padded section container; `ModuleList`
+groups sessions/lectures/assessments by week (see `src/lib/course-content.ts`
+for the sort/group helpers — `courseWeeks()` derives the week list from
+whatever content actually exists, never hardcode `1..12`); `DashboardOverview`
+and `UpcomingAssignments` are the home page's two columns. Reuse or extend
+these rather than writing new page-specific layout markup.
+
+### Content-model constraint the checks enforce
+
+`spec/assignment-2.test.ts` requires **at least one `sessions` entry for
+every teaching week the course claims to run (1 through 12)** — a session
+missing for any week fails `pnpm check`. Whatever the course ends up being,
+its weekly content needs to be authored (or at minimum placeholder-stubbed)
+for the full run, not just a couple of sample weeks.

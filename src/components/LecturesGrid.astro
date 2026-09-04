@@ -1,20 +1,86 @@
 ---
+import { getEntries } from "astro:content";
 import { getPublishedCollection } from "astro-course-university/content";
-import Card from "astro-theme-university/components/Card.astro";
-import CardGrid from "astro-theme-university/components/CardGrid.astro";
+import { withBase } from "astro-theme-university/url";
+import { sortByWeekThenDate } from "../lib/course-content";
 import { formatCourseDate } from "../lib/dates";
 
-const lectures = await getPublishedCollection("lectures");
-const visible = lectures.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const lectures = sortByWeekThenDate(await getPublishedCollection("lectures"));
+const teachersByLecture = await Promise.all(
+  lectures.map((lecture) => (lecture.data.teachers ? getEntries(lecture.data.teachers) : Promise.resolve([]))),
+);
 ---
 
-<CardGrid columns={2}>
+<ul class="lectures-list">
   {
-    visible.map((lecture) => (
-      <Card headingLevel="h2" title={lecture.data.title} href={`/lectures/${lecture.id}/`}>
-        {lecture.data.description && <p>{lecture.data.description}</p>}
-        <p><small>Week {lecture.data.week} · {formatCourseDate(lecture.data.date)}</small></p>
-      </Card>
+    lectures.map((lecture, i) => (
+      <li class="lecture-row">
+        <p class="lecture-meta">
+          <span class="lecture-week">Week {lecture.data.week}</span>
+          <span>{formatCourseDate(lecture.data.date)}</span>
+        </p>
+        <a class="lecture-title" href={withBase(`/lectures/${lecture.id}/`)}>
+          {lecture.data.title}
+        </a>
+        {lecture.data.description && <p class="lecture-description">{lecture.data.description}</p>}
+        <p class="lecture-footer">
+          {teachersByLecture[i].length > 0 && (
+            <span class="lecture-teachers">{teachersByLecture[i].map((t) => t.data.title).join(", ")}</span>
+          )}
+          {lecture.data.slides && <a href={withBase(lecture.data.slides)}>View slides</a>}
+        </p>
+      </li>
     ))
   }
-</CardGrid>
+</ul>
+
+<style>
+  .lectures-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lecture-row {
+    padding: 1rem 0;
+    border-block-end: 1px solid var(--at-divider, var(--at-border));
+  }
+
+  .lecture-row:first-child {
+    padding-block-start: 0;
+  }
+
+  .lecture-meta {
+    margin: 0;
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--at-text-secondary);
+  }
+
+  .lecture-week {
+    font-weight: 700;
+  }
+
+  .lecture-title {
+    display: inline-block;
+    margin-block-start: 0.25rem;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .lecture-description {
+    margin: 0.35rem 0 0;
+    color: var(--at-text-secondary);
+  }
+
+  .lecture-footer {
+    margin: 0.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    font-size: 0.9rem;
+  }
+</style>

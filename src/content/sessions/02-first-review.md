@@ -14,23 +14,17 @@ related:
   - assessments/assignment-1
 ---
 
-<!-- STARTER_CONTENT: replace this session, then remove this comment. -->
-
-Replace this page. It is here so the sessions listing sorts by week, the detail
-route renders a second spec, and the related block has an edge into the
-assessment collection.
+Placeholder content — this session's material has not been finalised yet.
 
 ## Before the session
 
-Bring the work from week 1 and the one decision you are least sure about.
+Details of what to bring and prepare will be added here.
 
 ## In the session
 
-Short demos, then feedback aimed at the decision rather than the polish. What
-makes a review worth attending is that the feedback changes what someone does
-next, so build in the time to act on it.
+Details of how the session's time is spent will be added here.
 
 ## Afterwards
 
-If attendance or participation is worth marks, say so here and link the rule to
-the [assessment page](/assessments/) rather than restating it.
+Details of what follows the session, including any link to the
+[assignments page](/assessments/), will be added here.

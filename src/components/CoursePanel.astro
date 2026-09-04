@@ -1,0 +1,40 @@
+---
+interface Props {
+  title: string;
+  headingLevel?: "h2" | "h3";
+}
+
+const { title, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const headingId = `panel-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+---
+
+<section class="course-panel" aria-labelledby={headingId}>
+  <Heading id={headingId} class="course-panel-heading">{title}</Heading>
+  <div class="course-panel-body">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .course-panel {
+    border: 1px solid var(--at-border);
+    border-radius: var(--at-border-radius);
+    padding: var(--at-spacing-md, 1rem);
+    background: var(--at-bg);
+  }
+
+  .course-panel + .course-panel {
+    margin-block-start: var(--at-spacing-lg, 1.5rem);
+  }
+
+  .course-panel-heading {
+    margin-block: 0 0.75rem;
+    font-size: 1.05rem;
+  }
+
+  .course-panel-body :global(ul) {
+    margin: 0;
+    padding-inline-start: 1.1rem;
+  }
+</style>

@@ -1,0 +1,163 @@
+---
+import { withBase } from "astro-theme-university/url";
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const items = [
+  { text: "Course Home", href: "/" },
+  { text: "Modules", href: "/sessions/" },
+  { text: "Lectures", href: "/lectures/" },
+  { text: "Assignments", href: "/assessments/" },
+  { text: "People", href: "/people/" },
+  { text: "Policies", href: "/policies/" },
+];
+
+function isActive(href: string): boolean {
+  const resolved = withBase(href);
+  if (resolved === withBase("/")) return currentPath === resolved;
+  return currentPath === resolved || currentPath.startsWith(resolved);
+}
+---
+
+<details class="course-nav" open>
+  <summary class="course-nav-toggle">
+    <span class="course-nav-toggle-label">Course menu</span>
+  </summary>
+  <nav class="course-nav-list" aria-label="Course navigation">
+    <ul>
+      {
+        items.map((item) => {
+          const active = isActive(item.href);
+          return (
+            <li>
+              <a href={withBase(item.href)} aria-current={active ? "page" : undefined}>
+                {item.text}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </nav>
+</details>
+
+<script>
+  // The navigation must be present in the desktop sidebar. On small screens it
+  // becomes the compact native disclosure instead, so close it as soon as the
+  // page loads (and reopen it when the viewport returns to desktop width).
+  function syncCourseNavigation() {
+    const desktop = matchMedia("(width >= 768px)");
+    for (const nav of document.querySelectorAll<HTMLDetailsElement>(".course-nav")) {
+      nav.open = desktop.matches;
+    }
+  }
+
+  syncCourseNavigation();
+  document.addEventListener("astro:page-load", syncCourseNavigation);
+</script>
+
+<style>
+  .course-nav {
+    border-bottom: 1px solid var(--at-border);
+  }
+
+  .course-nav-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem var(--at-gutter, 1rem);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .course-nav-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .course-nav-toggle::before {
+    content: "";
+    inline-size: 0.6em;
+    block-size: 0.6em;
+    border-inline-end: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+
+  .course-nav[open] > .course-nav-toggle::before {
+    transform: rotate(-135deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .course-nav-toggle::before {
+      transition: none;
+    }
+  }
+
+  .course-nav-toggle:hover {
+    background: var(--at-bg-alt);
+  }
+
+  .course-nav-toggle:focus-visible {
+    outline: 2px solid var(--at-primary);
+    outline-offset: -2px;
+  }
+
+  .course-nav-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0 0.75rem;
+  }
+
+  .course-nav-list a {
+    display: block;
+    padding: 0.55rem var(--at-gutter, 1rem);
+    color: var(--at-text);
+    text-decoration: none;
+    border-inline-start: 3px solid transparent;
+    font-size: 0.95rem;
+  }
+
+  .course-nav-list a:hover {
+    background: var(--at-bg-alt);
+  }
+
+  .course-nav-list a:focus-visible {
+    outline: 2px solid var(--at-primary);
+    outline-offset: -2px;
+  }
+
+  .course-nav-list a[aria-current="page"] {
+    border-inline-start-color: var(--at-primary);
+    background: var(--at-bg-alt);
+    font-weight: 600;
+  }
+
+  /* Desktop: the sidebar is always visible; the disclosure toggle is
+     redundant chrome, so hide it and force the list open regardless of the
+     `open` attribute (no JS — this is a pure CSS override of native
+     details/summary display). */
+  @media (width >= 768px) {
+    .course-nav {
+      border-bottom: none;
+    }
+
+    .course-nav-toggle {
+      display: none;
+    }
+
+    /* A closed <details>'s non-summary content is hidden by the UA via
+       `content-visibility: hidden` (not `display: none`), so overriding
+       `display` alone leaves it invisible — both properties must be reset. */
+    .course-nav-list {
+      display: block !important;
+      content-visibility: visible !important;
+    }
+  }
+</style>

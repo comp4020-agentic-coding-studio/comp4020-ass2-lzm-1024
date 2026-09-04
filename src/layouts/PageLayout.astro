@@ -1,8 +1,127 @@
 ---
-import MdxPageLayout from "astro-theme-university/layouts/MdxPageLayout.astro";
+/**
+ * The site-wide app shell: a persistent course sidebar + top course bar
+ * around every page's content. Used both directly by .astro pages (props
+ * passed by name) and implicitly by MDX pages (frontmatter arrives bundled
+ * as the `frontmatter` prop) — the `frontmatter ?? direct` unwrap mirrors
+ * astro-theme-university's own MdxPageLayout.astro so both call styles work.
+ */
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import CourseHeader from "../components/CourseHeader.astro";
+import CourseSidebar from "../components/CourseSidebar.astro";
 import { siteConfig } from "../site-config";
+
+interface Props {
+  title: string;
+  description?: string | null;
+  unlisted?: boolean;
+  frontmatter?: Record<string, unknown>;
+}
+
+const { frontmatter, ...direct } = Astro.props;
+const props = (frontmatter ?? direct) as Props;
+const { title, description, unlisted } = props;
 ---
 
-<MdxPageLayout siteConfig={siteConfig} {...Astro.props}>
-  <slot />
-</MdxPageLayout>
+<BaseLayout
+  title={`${title} — ${siteConfig.name}`}
+  description={description ?? undefined}
+  unlisted={unlisted}
+  {...siteConfig}
+>
+  <div class="course-shell">
+    <CourseHeader />
+    <div class="course-body">
+      <CourseSidebar currentPath={Astro.url.pathname} />
+      <div class="course-content">
+        <h1>{title}</h1>
+        {description && <p class="lead">{description}</p>}
+        <slot />
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* Keep the institution navigation/crest, but remove the theme's editorial
+     accent rule: it would otherwise run through the course portal content. */
+  body:has(.course-shell)::after {
+    display: none;
+  }
+
+  /* The default theme centres its institutional navigation in the editorial
+     text column. A course portal uses the full page width, so align the crest
+     to the left page gutter and leave the search control at the far right. */
+  body:has(.course-shell) > .at-nav > .at-nav-inner {
+    grid-column: 1 / -1;
+    padding-inline: clamp(1rem, 3vw, 3rem);
+  }
+
+  body:has(.course-shell) > .at-nav .at-nav-brand {
+    transform: none;
+  }
+
+  /* Widen the theme's centred ~48rem article column into a full-bleed
+     course-management shell for every page using this layout. */
+  .at-main:has(> .course-shell) {
+    grid-column: full;
+    padding: 0;
+  }
+
+  /* BaseLayout normally assigns every direct child of `.at-main` to its
+     narrow `content` track. Expanding the main element alone is therefore
+     not enough: the course shell itself must span the full subgrid too.
+     Without this rule, the dashboard's fixed-width right rail consumes most
+     of that narrow track and leaves the primary column as a thin sliver. */
+  .at-main:has(> .course-shell) > .course-shell {
+    /* `full` is a convenient named span in the theme's outer grid, but it
+       resolves to a narrow implicit span when used within `.at-main`'s
+       subgrid. Numeric boundaries explicitly cover every inherited track. */
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .course-shell {
+    max-width: 90rem;
+    margin-inline: auto;
+  }
+
+  .course-body {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .course-content {
+    min-width: 0;
+    padding: var(--at-spacing-lg, 1.5rem) var(--at-gutter, 1rem);
+    /* Named so nested layouts (e.g. the dashboard's two-column grid) can size
+       off the space actually left after the sidebar, instead of raw viewport
+       width — a viewport media query can't see that the 16rem sidebar has
+       already eaten into what's available. */
+    container: course-content / inline-size;
+  }
+
+  .course-content .lead {
+    color: var(--at-text-secondary);
+    font-size: 1.05rem;
+  }
+
+  @media (width >= 768px) {
+    .course-body {
+      grid-template-columns: 16rem 1fr;
+      align-items: start;
+    }
+
+    .course-body > .course-nav {
+      position: sticky;
+      top: 0;
+      max-height: 100vh;
+      overflow-y: auto;
+      border-inline-end: 1px solid var(--at-border);
+    }
+
+    .course-content {
+      padding: var(--at-spacing-xl, 2rem) var(--at-spacing-xl, 2rem);
+    }
+  }
+</style>

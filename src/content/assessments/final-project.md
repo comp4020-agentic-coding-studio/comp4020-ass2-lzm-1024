@@ -18,21 +18,15 @@ spec:
   - it answers the brief rather than restating it
 ---
 
-<!-- STARTER_CONTENT: replace this assessment brief, then remove this comment. -->
-
-Replace this brief. The final project is where a course's weights usually
-concentrate, so it is worth being explicit about how the earlier work feeds it.
+Placeholder content — this assignment brief has not been finalised yet.
 
 ## The brief
 
-> One sentence, again as a blockquote.
+> The problem statement for this assignment will be added here.
 
-Say what scope is realistic in the time available. A brief that quietly assumes
-twice the available hours is the most common way a capstone goes wrong.
+A fuller description of the task and its realistic scope will be added once
+the brief is finalised.
 
 ## What you submit
 
-The artefact, and whatever a marker needs to run or read it.
-
-This one demonstrates the alternative marking mode: a holistic explanation
-rather than weighted criteria. The site renders either mode from frontmatter.
+Details of the submission format will be added here.

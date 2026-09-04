@@ -1,26 +1,83 @@
 ---
 import { getPublishedCollection } from "astro-course-university/content";
-import Card from "astro-theme-university/components/Card.astro";
-import CardGrid from "astro-theme-university/components/CardGrid.astro";
+import { withBase } from "astro-theme-university/url";
+import { sortByDue } from "../lib/course-content";
 import { formatCourseDate } from "../lib/dates";
 
 const assessments = await getPublishedCollection("assessments");
-const visible = assessments.sort((a, b) => a.data.week - b.data.week);
+const visible = sortByDue(assessments);
 ---
 
-<CardGrid columns={2}>
+<ul class="assessments-list">
   {
     visible.map((assessment) => (
-      <Card headingLevel="h2" title={assessment.data.title} href={`/assessments/${assessment.id}/`}>
-        {assessment.data.description && <p>{assessment.data.description}</p>}
-        {assessment.data.weight != null && (
-          <p>
-            <small>
-              Due {formatCourseDate(assessment.data.due)} · Weight: {assessment.data.weight}%{assessment.data.draft && " · Draft"}
-            </small>
-          </p>
-        )}
-      </Card>
+      <li class="assessment-row">
+        <a class="assessment-title" href={withBase(`/assessments/${assessment.id}/`)}>
+          {assessment.data.title}
+        </a>
+        {assessment.data.description && <p class="assessment-description">{assessment.data.description}</p>}
+        <p class="assessment-meta">
+          <span class="assessment-due">
+            <strong>Due</strong> {formatCourseDate(assessment.data.due)}
+          </span>
+          <span class="assessment-weight">
+            <strong>Weight</strong> {assessment.data.weight}%
+          </span>
+          {assessment.data.draft && <span class="assessment-draft">Draft</span>}
+        </p>
+      </li>
     ))
   }
-</CardGrid>
+</ul>
+
+<style>
+  .assessments-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .assessment-row {
+    padding: 1rem 0;
+    border-block-end: 1px solid var(--at-divider, var(--at-border));
+  }
+
+  .assessment-row:first-child {
+    padding-block-start: 0;
+  }
+
+  .assessment-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .assessment-description {
+    margin: 0.35rem 0 0;
+    color: var(--at-text-secondary);
+  }
+
+  .assessment-meta {
+    margin: 0.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .assessment-meta strong {
+    font-weight: 600;
+    margin-inline-end: 0.25rem;
+  }
+
+  .assessment-draft {
+    border: 1px solid var(--at-border);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+</style>

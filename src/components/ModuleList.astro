@@ -1,0 +1,155 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+import { courseWeeks, sortByDue, sortByWeekThenDate } from "../lib/course-content";
+import { formatCourseDate } from "../lib/dates";
+
+const sessions = sortByWeekThenDate(await getPublishedCollection("sessions"));
+const lectures = sortByWeekThenDate(await getPublishedCollection("lectures"));
+const assessments = sortByDue(await getPublishedCollection("assessments"));
+
+const weeks = courseWeeks(sessions, lectures, assessments);
+---
+
+<ol class="module-list">
+  {
+    weeks.map((week) => {
+      const weekSessions = sessions.filter((s) => s.data.week === week);
+      const weekLectures = lectures.filter((l) => l.data.week === week);
+      const weekAssessments = assessments.filter((a) => a.data.week === week);
+      return (
+        <li>
+          <details class="module" open>
+            <summary>
+              <span class="module-week">Week {week}</span>
+              <span class="module-title">
+                {weekSessions[0]?.data.title ?? weekLectures[0]?.data.title ?? "No session scheduled"}
+              </span>
+            </summary>
+            <div class="module-items">
+              {weekLectures.map((lecture) => (
+                <p class="module-item">
+                  <a href={withBase(`/lectures/${lecture.id}/`)}>Lecture: {lecture.data.title}</a>
+                  <span class="module-item-meta">{formatCourseDate(lecture.data.date)}</span>
+                </p>
+              ))}
+              {weekSessions.map((session) => (
+                <p class="module-item">
+                  <a href={withBase(`/sessions/${session.id}/`)}>Session: {session.data.title}</a>
+                  <span class="module-item-meta">{formatCourseDate(session.data.date)}</span>
+                </p>
+              ))}
+              {weekAssessments.map((assessment) => (
+                <p class="module-item">
+                  <a href={withBase(`/assessments/${assessment.id}/`)}>
+                    Assignment: {assessment.data.title}
+                  </a>
+                  <span class="module-item-meta">
+                    Due {formatCourseDate(assessment.data.due)}
+                    {assessment.data.draft && <strong class="module-draft"> · Draft</strong>}
+                  </span>
+                </p>
+              ))}
+              {weekSessions.length === 0 && weekLectures.length === 0 && weekAssessments.length === 0 && (
+                <p class="module-item-meta">Nothing scheduled for this week yet.</p>
+              )}
+            </div>
+          </details>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .module-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .module {
+    border: 1px solid var(--at-border);
+    border-radius: var(--at-border-radius);
+    background: var(--at-bg);
+  }
+
+  .module summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .module summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .module summary::before {
+    content: "";
+    inline-size: 0.55em;
+    block-size: 0.55em;
+    border-inline-end: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-inline-end: 0.25rem;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .module[open] summary::before {
+    transform: rotate(-135deg);
+  }
+
+  .module summary:hover {
+    background: var(--at-bg-alt);
+  }
+
+  .module summary:focus-visible {
+    outline: 2px solid var(--at-primary);
+    outline-offset: -2px;
+  }
+
+  .module-week {
+    font-weight: 700;
+    color: var(--at-text-secondary);
+    white-space: nowrap;
+  }
+
+  .module-title {
+    font-weight: 600;
+  }
+
+  .module-items {
+    padding: 0 1rem 1rem 2.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .module-item {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+  }
+
+  .module-item-meta {
+    color: var(--at-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .module-draft {
+    border: 1px solid var(--at-border);
+    border-radius: 999px;
+    padding: 0 0.4rem;
+    font-size: 0.8rem;
+  }
+</style>

@@ -21,26 +21,14 @@ related:
   - final-project
 ---
 
-<!-- STARTER_CONTENT: replace this assessment brief, then remove this comment. -->
-
-Replace this brief. An assessment page has three jobs: pose the problem, say
-what is submitted, and say how it is marked.
+Placeholder content — this assignment brief has not been finalised yet.
 
 ## The brief
 
-> One sentence stating the problem, set as a blockquote so it reads as the thing
-> being asked rather than as commentary on it.
+> The problem statement for this assignment will be added here.
 
-Then a paragraph or two on what makes a strong response --- the room the brief
-leaves, and the judgement it is testing. Keep the provocation and the mechanics
-apart: a student should be able to read the first and know what to make, and
-read the second and know what to hand in.
+A fuller description of the task will be added once the brief is finalised.
 
 ## What you submit
 
-Name the artefact and the format. If evidence of process is part of the
-submission, say which files and what each is for.
-
-The optional `marking:` block renders a criterion table (weighted) or a marking
-statement (holistic) below; leave it out and say how the work is marked in
-prose.
+Details of the submission format will be added here.
