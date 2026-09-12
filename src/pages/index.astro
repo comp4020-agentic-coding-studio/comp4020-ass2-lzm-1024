@@ -2,6 +2,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import DashboardOverview from "../components/DashboardOverview.astro";
 import UpcomingAssignments from "../components/UpcomingAssignments.astro";
+import LearningProgressSummary from "../components/LearningProgressSummary.astro";
 import { courseMeta } from "../course-config";
 ---
 
@@ -9,6 +10,7 @@ import { courseMeta } from "../course-config";
   <div class="dashboard-grid">
     <div class="dashboard-main">
       <DashboardOverview />
+      <LearningProgressSummary />
     </div>
     <div class="dashboard-rail">
       <UpcomingAssignments />

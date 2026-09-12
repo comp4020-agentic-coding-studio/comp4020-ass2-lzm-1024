@@ -1,24 +1,22 @@
 ---
-title: Week 3 session
+title: Light and colour
 description:
-  Placeholder entry for the week 3 session — content has not been finalised
-  yet.
+  Use natural and available light to shape mood, direct attention and keep a
+  subject readable.
 week: 3
 date: 2027-03-08
 teachers:
   - marisol-quaye
 ---
 
-Placeholder content — this session's material has not been finalised yet.
-
 ## Before the session
 
-Details of what to bring and prepare will be added here.
+Bring two examples of the same place photographed or filmed at different times of day.
 
 ## In the session
 
-Details of how the session's time is spent will be added here.
+We compare front, side and back light, then make a three-shot exercise that uses changing light to alter the meaning of a routine.
 
 ## Afterwards
 
-Details of what follows the session will be added here.
+Add a location and time-of-day note to your Assignment 1 plan. Identify the light you need and a backup option.

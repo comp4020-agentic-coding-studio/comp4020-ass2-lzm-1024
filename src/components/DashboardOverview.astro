@@ -12,18 +12,6 @@ const assessments = sortByDue(await getPublishedCollection("assessments"));
 const people = sortPeople(await getPublishedCollection("people"));
 const weeks = courseWeeks(sessions, lectures, assessments);
 
-// Only ever claim "this week" when the course's own recorded dates actually
-// bracket today — course-config.ts's placeholder dates won't, so this stays
-// a neutral module overview until real dates are filled in. Never invented.
-const now = new Date();
-const courseIsLive = now >= new Date(courseMeta.startDate) && now <= new Date(courseMeta.endDate);
-const thisWeekSession = courseIsLive
-  ? sessions.find((s) => {
-      const diffDays = Math.abs((s.data.date.getTime() - now.getTime()) / 86_400_000);
-      return diffDays <= 7;
-    })
-  : undefined;
-
 const firstWeekSessions = sessions.filter((s) => s.data.week === weeks[0]);
 const firstWeekLectures = lectures.filter((l) => l.data.week === weeks[0]);
 
@@ -44,17 +32,7 @@ const teachingTeamPreview = people.slice(0, 4);
     }
   </CoursePanel>
 
-  {
-    thisWeekSession ? (
-      <CoursePanel title="This week">
-        <p class="dashboard-week-label">Week {thisWeekSession.data.week}</p>
-        <p>
-          <a href={withBase(`/sessions/${thisWeekSession.id}/`)}>{thisWeekSession.data.title}</a>
-        </p>
-        {thisWeekSession.data.description && <p>{thisWeekSession.data.description}</p>}
-      </CoursePanel>
-    ) : (
-      <CoursePanel title="Course modules overview">
+  <CoursePanel title="Course modules overview">
         <p>
           {weeks.length} week{weeks.length === 1 ? "" : "s"} of material are scheduled so far. Browse the
           full breakdown on the <a href={withBase("/sessions/")}>Modules</a> page.
@@ -70,16 +48,29 @@ const teachingTeamPreview = people.slice(0, 4);
             ))}
           </p>
         )}
-      </CoursePanel>
-    )
-  }
+  </CoursePanel>
+
+  <CoursePanel title="Start here">
+    <p>
+      This is a hands-on foundation course. You can work with a phone or camera; expensive equipment is not required.
+      Each week combines a short lecture, a making task and critique.
+    </p>
+    <p>
+      By the end of the course, you will be able to plan a short visual story, record purposeful image and sound,
+      edit a clear sequence, and explain the ethical choices behind publication.
+    </p>
+    <p>
+      Begin with <a href={withBase("/lectures/week-01/")}>Week 1: Seeing before shooting</a>, then complete the
+      field exercise in the first module.
+    </p>
+  </CoursePanel>
 
   <CoursePanel title="Course modules">
     <ul class="dashboard-week-list">
       {
         weeks.map((week) => (
           <li>
-            <a href={withBase("/sessions/")}>Week {week}</a>
+            <a href={withBase(`/sessions/#week-${week}`)}>Week {week}</a>
             {sessions.find((s) => s.data.week === week)?.data.title && (
               <span class="dashboard-week-title"> — {sessions.find((s) => s.data.week === week)?.data.title}</span>
             )}

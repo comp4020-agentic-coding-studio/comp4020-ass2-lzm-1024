@@ -1,32 +1,38 @@
 ---
-title: Final project
+title: "Final project: A short visual story"
 description:
-  The capstone — a placeholder brief for the larger piece of work the semester
-  builds towards
+  A 2–3 minute short film and production dossier that demonstrates a deliberate
+  point of view, ethical practice and revision through feedback.
 week: 12
 due: 2027-05-28T12:00:00+10:00
 weight: 60
 marking:
-  mode: holistic
-  description:
-    The final project is judged as a whole against the brief, with particular
-    attention to whether the result stands alone and whether its scope fits the
-    semester that produced it.
+  mode: weighted
+  criteria:
+    - name: Story, structure and audience
+      weight: 30
+    - name: Cinematography and sound
+      weight: 25
+    - name: Editing and revision
+      weight: 25
+    - name: Dossier, ethics and attribution
+      weight: 20
 spec:
-  - submitted by the deadline, in the format named below
-  - it stands on its own, without you there to explain it
-  - it answers the brief rather than restating it
+  - a 2–3 minute MP4 works as a self-contained viewing experience
+  - the work uses a clear point of view and a justified formal approach
+  - the dossier documents planning, feedback, permissions and external media
 ---
-
-Placeholder content — this assignment brief has not been finalised yet.
 
 ## The brief
 
-> The problem statement for this assignment will be added here.
+Create a 2–3 minute short film about a person, place, process or question that you can approach responsibly. The project may be observational, interview-led, essayistic or process-based, but it must make a specific viewing experience rather than act as a promotional video.
 
-A fuller description of the task and its realistic scope will be added once
-the brief is finalised.
+Scope the project so it can be shot, edited and revised during the semester. A polished small story is stronger than an unfinished large one.
 
 ## What you submit
 
-Details of the submission format will be added here.
+Upload a captioned H.264 MP4, 1080p or lower, plus a 3–5 page PDF production dossier. The dossier includes a logline, audience statement, storyboard or edit map, production log, two feedback changes, consent/media record and a 400-word critical reflection.
+
+## Milestones
+
+Bring a one-sentence premise in Week 8, a rough cut in Week 10 and a revised cut to the Week 11 peer review.

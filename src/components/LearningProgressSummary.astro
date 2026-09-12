@@ -1,0 +1,91 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+import { sortByWeekThenDate } from "../lib/course-content";
+import CoursePanel from "./CoursePanel.astro";
+
+const sessions = sortByWeekThenDate(await getPublishedCollection("sessions"));
+const lectures = sortByWeekThenDate(await getPublishedCollection("lectures"));
+const items = [...sessions, ...lectures].map((item) => ({
+  id: `${item.collection}/${item.id}`,
+  title: item.data.title,
+  href: withBase(`/${item.collection}/${item.id}/`),
+}));
+---
+
+<CoursePanel title="Your reading progress" headingLevel="h2">
+  <section data-learning-summary data-items={JSON.stringify(items)}>
+    <p data-progress-count>Reading progress is saved only in this browser.</p>
+    <p><a data-continue-learning hidden>Continue where you left off</a></p>
+    <button type="button" data-progress-reset>Reset local progress</button>
+    <p class="progress-note">This is not a grade, submission record, or synced account.</p>
+  </section>
+</CoursePanel>
+
+<script>
+  const progressKey = "slopu-course-progress-v1";
+
+  type ProgressRecord = { read: string[]; lastViewed?: { id: string; title: string; href: string } };
+
+  function readProgress(): ProgressRecord {
+    try {
+      const stored = localStorage.getItem(progressKey);
+      if (!stored) return { read: [] };
+      const parsed = JSON.parse(stored) as Partial<ProgressRecord>;
+      return { read: Array.isArray(parsed.read) ? parsed.read.filter((id): id is string => typeof id === "string") : [], lastViewed: parsed.lastViewed };
+    } catch {
+      return { read: [] };
+    }
+  }
+
+  function updateSummary(summary: HTMLElement): void {
+    const items = JSON.parse(summary.dataset.items ?? "[]") as { id: string; title: string; href: string }[];
+    const ids = new Set(items.map((item) => item.id));
+    const progress = readProgress();
+    const count = progress.read.filter((id) => ids.has(id)).length;
+    const countLabel = summary.querySelector<HTMLElement>("[data-progress-count]");
+    if (countLabel) countLabel.textContent = `${count} of ${items.length} learning activities marked as read.`;
+    const continueLink = summary.querySelector<HTMLAnchorElement>("[data-continue-learning]");
+    const last = progress.lastViewed && ids.has(progress.lastViewed.id) ? progress.lastViewed : undefined;
+    if (continueLink && last) {
+      continueLink.href = last.href;
+      continueLink.textContent = `Continue: ${last.title}`;
+      continueLink.hidden = false;
+    } else if (continueLink) {
+      continueLink.hidden = true;
+    }
+  }
+
+  function setupProgressSummary(): void {
+    for (const summary of document.querySelectorAll<HTMLElement>("[data-learning-summary]")) {
+      if (summary.dataset.progressReady === "true") continue;
+      summary.dataset.progressReady = "true";
+      updateSummary(summary);
+      summary.querySelector<HTMLButtonElement>("[data-progress-reset]")?.addEventListener("click", () => {
+        try {
+          localStorage.removeItem(progressKey);
+          updateSummary(summary);
+          document.dispatchEvent(new CustomEvent("learning-progress-change"));
+        } catch {
+          // Browser storage is optional; the course remains readable without it.
+        }
+      });
+      document.addEventListener("learning-progress-change", () => updateSummary(summary));
+    }
+  }
+
+  setupProgressSummary();
+  document.addEventListener("astro:page-load", setupProgressSummary);
+</script>
+
+<style>
+  [data-progress-reset] {
+    font: inherit;
+  }
+
+  .progress-note {
+    margin-block-end: 0;
+    color: var(--at-text-secondary);
+    font-size: 0.9rem;
+  }
+</style>

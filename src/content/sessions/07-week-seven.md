@@ -1,24 +1,22 @@
 ---
-title: Week 7 session
+title: First assemblies
 description:
-  Placeholder entry for the week 7 session — content has not been finalised
-  yet.
+  Build a first cut, identify the story it currently tells and make one focused
+  revision before submitting Assignment 1.
 week: 7
 date: 2027-04-05
 teachers:
   - marisol-quaye
 ---
 
-Placeholder content — this session's material has not been finalised yet.
-
 ## Before the session
 
-Details of what to bring and prepare will be added here.
+Bring an editable first assembly, even if it is incomplete, plus your production log.
 
 ## In the session
 
-Details of how the session's time is spent will be added here.
+We screen short extracts and use critique vocabulary: framing, rhythm, continuity and point of view. You leave with one revision priority and a submission checklist.
 
 ## Afterwards
 
-Details of what follows the session will be added here.
+Submit [Assignment 1](/assessments/assignment-1/) by 5:00 pm Friday. Start noting the question you may pursue in the final project.

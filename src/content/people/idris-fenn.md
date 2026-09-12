@@ -1,11 +1,12 @@
 ---
 title: Idris Fenn
 description:
-  A tutor working across the course's first reviews and the practical work that
-  follows them.
+  Studio tutor and sound recordist who supports practical exercises, rough-cut
+  reviews and accessible production workflows.
 role: tutor
-contact: Contact details will be added once the teaching team is finalised.
+affiliation: School of Screen and Everyday Media, Slop University
+email: idris.fenn@slop.university
+contact: Bring technical questions to studio or post them in the course discussion board.
 ---
 
-Placeholder directory entry. A second person here demonstrates role ordering
-and teacher-reference fields before the real teaching team is added.
+Idris helps students work with the equipment they already have. He pays particular attention to intelligible sound, practical file management and feedback that can be acted on in the next cut.

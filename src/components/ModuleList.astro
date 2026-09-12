@@ -11,14 +11,29 @@ const assessments = sortByDue(await getPublishedCollection("assessments"));
 const weeks = courseWeeks(sessions, lectures, assessments);
 ---
 
-<ol class="module-list">
+<div class="module-tools" data-module-tools>
+  <div class="module-tool-actions" aria-label="Module display controls">
+    <button type="button" data-module-expand>Expand all</button>
+    <button type="button" data-module-collapse>Collapse all</button>
+  </div>
+  <div class="module-filter" role="group" aria-label="Filter modules by content type">
+    <span>Show</span>
+    <button type="button" data-module-filter="all" aria-pressed="true">All</button>
+    <button type="button" data-module-filter="lecture" aria-pressed="false">Lectures</button>
+    <button type="button" data-module-filter="session" aria-pressed="false">Sessions</button>
+    <button type="button" data-module-filter="assessment" aria-pressed="false">Assignments</button>
+  </div>
+  <p class="module-filter-status" data-module-status aria-live="polite"></p>
+</div>
+
+<ol class="module-list" data-module-list>
   {
     weeks.map((week) => {
       const weekSessions = sessions.filter((s) => s.data.week === week);
       const weekLectures = lectures.filter((l) => l.data.week === week);
       const weekAssessments = assessments.filter((a) => a.data.week === week);
       return (
-        <li>
+        <li id={`week-${week}`} data-module-week>
           <details class="module" open>
             <summary>
               <span class="module-week">Week {week}</span>
@@ -28,19 +43,19 @@ const weeks = courseWeeks(sessions, lectures, assessments);
             </summary>
             <div class="module-items">
               {weekLectures.map((lecture) => (
-                <p class="module-item">
+                <p class="module-item" data-module-type="lecture">
                   <a href={withBase(`/lectures/${lecture.id}/`)}>Lecture: {lecture.data.title}</a>
                   <span class="module-item-meta">{formatCourseDate(lecture.data.date)}</span>
                 </p>
               ))}
               {weekSessions.map((session) => (
-                <p class="module-item">
+                <p class="module-item" data-module-type="session">
                   <a href={withBase(`/sessions/${session.id}/`)}>Session: {session.data.title}</a>
                   <span class="module-item-meta">{formatCourseDate(session.data.date)}</span>
                 </p>
               ))}
               {weekAssessments.map((assessment) => (
-                <p class="module-item">
+                <p class="module-item" data-module-type="assessment">
                   <a href={withBase(`/assessments/${assessment.id}/`)}>
                     Assignment: {assessment.data.title}
                   </a>
@@ -61,6 +76,58 @@ const weeks = courseWeeks(sessions, lectures, assessments);
   }
 </ol>
 
+<script>
+  function setupModuleTools(): void {
+    for (const tools of document.querySelectorAll<HTMLElement>("[data-module-tools]")) {
+      if (tools.dataset.moduleToolsReady === "true") continue;
+      tools.dataset.moduleToolsReady = "true";
+      const list = tools.nextElementSibling;
+      if (!(list instanceof HTMLOListElement)) continue;
+      const modules = [...list.querySelectorAll<HTMLElement>("[data-module-week]")];
+      const status = tools.querySelector<HTMLElement>("[data-module-status]");
+      const filters = [...tools.querySelectorAll<HTMLButtonElement>("[data-module-filter]")];
+
+      tools.querySelector<HTMLButtonElement>("[data-module-expand]")?.addEventListener("click", () => {
+        modules.forEach((module) => {
+          const details = module.querySelector("details");
+          if (details) details.open = true;
+        });
+      });
+
+      tools.querySelector<HTMLButtonElement>("[data-module-collapse]")?.addEventListener("click", () => {
+        modules.forEach((module) => {
+          const details = module.querySelector("details");
+          if (details) details.open = false;
+        });
+      });
+
+      for (const filter of filters) {
+        filter.addEventListener("click", () => {
+          const selected = filter.dataset.moduleFilter;
+          if (!selected) return;
+          let visible = 0;
+          modules.forEach((module) => {
+            const items = [...module.querySelectorAll<HTMLElement>("[data-module-type]")];
+            const matches = selected === "all" || items.some((item) => item.dataset.moduleType === selected);
+            module.hidden = !matches;
+            if (matches) {
+              visible += 1;
+              items.forEach((item) => {
+                item.hidden = selected !== "all" && item.dataset.moduleType !== selected;
+              });
+            }
+          });
+          filters.forEach((button) => button.setAttribute("aria-pressed", String(button === filter)));
+          if (status) status.textContent = `Showing ${visible} week${visible === 1 ? "" : "s"}.`;
+        });
+      }
+    }
+  }
+
+  setupModuleTools();
+  document.addEventListener("astro:page-load", setupModuleTools);
+</script>
+
 <style>
   .module-list {
     list-style: none;
@@ -71,10 +138,47 @@ const weeks = courseWeeks(sessions, lectures, assessments);
     gap: 0.75rem;
   }
 
+  .module-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    align-items: center;
+    margin-block-end: 1rem;
+  }
+
+  .module-tool-actions,
+  .module-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .module-tools button {
+    font: inherit;
+  }
+
+  .module-filter [aria-pressed="true"] {
+    border-color: var(--at-primary);
+    background: var(--at-bg-alt);
+    font-weight: 600;
+  }
+
+  .module-filter-status {
+    flex-basis: 100%;
+    margin: 0;
+    color: var(--at-text-secondary);
+    font-size: 0.9rem;
+  }
+
   .module {
     border: 1px solid var(--at-border);
     border-radius: var(--at-border-radius);
     background: var(--at-bg);
+  }
+
+  [data-module-week] {
+    scroll-margin-block-start: 1rem;
   }
 
   .module summary {

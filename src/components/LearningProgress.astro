@@ -1,0 +1,95 @@
+---
+interface Props {
+  itemId: string;
+  title: string;
+  href: string;
+}
+
+const { itemId, title, href } = Astro.props;
+---
+
+<section class="learning-progress" data-learning-item data-item-id={itemId} data-item-title={title} data-item-href={href} aria-label="Learning progress">
+  <button type="button" data-progress-toggle>Mark as read</button>
+  <p class="learning-progress-note">Saved only in this browser. It is not a grade or submission record.</p>
+</section>
+
+<script>
+  const progressKey = "slopu-course-progress-v1";
+
+  type ProgressRecord = { read: string[]; lastViewed?: { id: string; title: string; href: string } };
+
+  function readProgress(): ProgressRecord {
+    try {
+      const stored = localStorage.getItem(progressKey);
+      if (!stored) return { read: [] };
+      const parsed = JSON.parse(stored) as Partial<ProgressRecord>;
+      return { read: Array.isArray(parsed.read) ? parsed.read.filter((id): id is string => typeof id === "string") : [], lastViewed: parsed.lastViewed };
+    } catch {
+      return { read: [] };
+    }
+  }
+
+  function writeProgress(record: ProgressRecord): boolean {
+    try {
+      localStorage.setItem(progressKey, JSON.stringify(record));
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function refreshItem(item: HTMLElement, record: ProgressRecord): void {
+    const id = item.dataset.itemId;
+    const toggle = item.querySelector<HTMLButtonElement>("[data-progress-toggle]");
+    if (!id || !toggle) return;
+    const read = record.read.includes(id);
+    toggle.textContent = read ? "Mark as unread" : "Mark as read";
+    toggle.setAttribute("aria-pressed", String(read));
+  }
+
+  function setupLearningProgress(): void {
+    for (const item of document.querySelectorAll<HTMLElement>("[data-learning-item]")) {
+      if (item.dataset.progressReady === "true") continue;
+      item.dataset.progressReady = "true";
+      const id = item.dataset.itemId;
+      const title = item.dataset.itemTitle;
+      const href = item.dataset.itemHref;
+      if (!id || !title || !href) continue;
+      const record = readProgress();
+      record.lastViewed = { id, title, href };
+      writeProgress(record);
+      refreshItem(item, record);
+      item.querySelector<HTMLButtonElement>("[data-progress-toggle]")?.addEventListener("click", () => {
+        const next = readProgress();
+        next.read = next.read.includes(id) ? next.read.filter((entry) => entry !== id) : [...next.read, id];
+        if (writeProgress(next)) {
+          refreshItem(item, next);
+          document.dispatchEvent(new CustomEvent("learning-progress-change"));
+        }
+      });
+    }
+  }
+
+  setupLearningProgress();
+  document.addEventListener("astro:page-load", setupLearningProgress);
+</script>
+
+<style>
+  .learning-progress {
+    margin-block: 1.5rem;
+    padding: 0.85rem 1rem;
+    border-inline-start: 3px solid var(--at-primary);
+    background: var(--at-bg-alt);
+  }
+
+  .learning-progress button {
+    font: inherit;
+    font-weight: 600;
+  }
+
+  .learning-progress-note {
+    margin: 0.5rem 0 0;
+    color: var(--at-text-secondary);
+    font-size: 0.9rem;
+  }
+</style>

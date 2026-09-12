@@ -46,17 +46,15 @@ export const slopCourseMetaSchema = z
 // The code's last three digits were assigned to this repo when it was
 // provisioned, and no other course in the cohort has them. Change the first
 // digit to your course's level (and `level` to match); keep the other three.
-// TODO: replace this course record once the course's subject and schedule are decided.
 export const courseMeta = slopCourseMetaSchema.parse({
   code: "SLOP1416",
-  title: "Course Title Goes Here",
+  title: "Visual Storytelling for Short-Form Media",
   session: "Semester 1",
   year: 2027,
   level: 1,
   startDate: "2027-02-22",
   endDate: "2027-05-28",
   description:
-    "One concise paragraph explaining what this course is, who it is for, " +
-    "and why somebody would choose to spend a semester taking it.",
-  tags: ["replace me"],
+    "A foundation course for students who want to make short, purposeful videos with a phone or camera. Through observation, shooting, sound, editing and critique, students build the practical and ethical habits needed to turn everyday material into clear visual stories.",
+  tags: ["video production", "visual storytelling", "editing"],
 }) satisfies CourseMetaInput;

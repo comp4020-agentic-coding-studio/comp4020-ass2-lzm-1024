@@ -1,10 +1,85 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import ModuleList from "../../components/ModuleList.astro";
+import { withBase } from "astro-theme-university/url";
 
 const description = "The teaching schedule grouped by week: sessions, lectures, and assignments due each week.";
 ---
 
 <PageLayout title="Modules" description={description}>
+  <p class="module-page-actions">
+    <a href={withBase("/calendar.ics")}>Download course calendar (.ics)</a>
+    <button type="button" data-print-schedule>Print schedule</button>
+  </p>
   <ModuleList />
 </PageLayout>
+
+<script>
+  function setupPrintSchedule(): void {
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-print-schedule]")) {
+      if (button.dataset.printReady === "true") continue;
+      button.dataset.printReady = "true";
+      button.addEventListener("click", () => {
+        // A learner may have collapsed modules while browsing. Open them just for
+        // the print dialog, then return the page to its original state.
+        const closedModules = [...document.querySelectorAll<HTMLDetailsElement>(".module")]
+          .filter((module) => !module.open);
+        closedModules.forEach((module) => {
+          module.open = true;
+        });
+
+        window.addEventListener(
+          "afterprint",
+          () => {
+            closedModules.forEach((module) => {
+              module.open = false;
+            });
+          },
+          { once: true },
+        );
+
+        window.print();
+      });
+    }
+  }
+
+  setupPrintSchedule();
+  document.addEventListener("astro:page-load", setupPrintSchedule);
+</script>
+
+<style is:global>
+  .module-page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .module-page-actions button {
+    font: inherit;
+  }
+
+  @media print {
+    .at-nav,
+    .course-header,
+    .course-nav,
+    .module-tools,
+    .module-page-actions,
+    .at-footer,
+    [data-astro-dev-toolbar] {
+      display: none !important;
+    }
+
+    .course-body {
+      display: block !important;
+    }
+
+    .course-content {
+      padding: 0 !important;
+    }
+
+    .module {
+      break-inside: avoid;
+    }
+  }
+</style>

@@ -1,24 +1,22 @@
 ---
-title: Week 8 session
+title: Continuity and rhythm
 description:
-  Placeholder entry for the week 8 session — content has not been finalised
-  yet.
+  Use screen direction, action matching and shot duration to help a viewer move
+  through time and space.
 week: 8
 date: 2027-04-12
 teachers:
   - idris-fenn
 ---
 
-Placeholder content — this session's material has not been finalised yet.
-
 ## Before the session
 
-Details of what to bring and prepare will be added here.
+Bring one sentence describing your final project subject and a reference video whose rhythm you want to study.
 
 ## In the session
 
-Details of how the session's time is spent will be added here.
+We diagnose continuity problems, re-cut a shared sequence and workshop final-project premises for scope and access.
 
 ## Afterwards
 
-Details of what follows the session will be added here.
+Write a final-project logline, audience statement and first production plan.

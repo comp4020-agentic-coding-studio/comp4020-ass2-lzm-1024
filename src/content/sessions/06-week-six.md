@@ -1,24 +1,22 @@
 ---
-title: Week 6 session
+title: Storyboards and production plans
 description:
-  Placeholder entry for the week 6 session — content has not been finalised
-  yet.
+  Turn an idea into a manageable shoot with a shot list, a sequence plan and a
+  realistic backup.
 week: 6
 date: 2027-03-29
 teachers:
   - idris-fenn
 ---
 
-Placeholder content — this session's material has not been finalised yet.
-
 ## Before the session
 
-Details of what to bring and prepare will be added here.
+Bring your Assignment 1 logline, planned location and a rough list of the moments you need to capture.
 
 ## In the session
 
-Details of how the session's time is spent will be added here.
+Students map setup, development and resolution as images. We review shot lists for clarity, time, safety and permission.
 
 ## Afterwards
 
-Details of what follows the session will be added here.
+Complete your first shoot before Week 7. Keep a production log, including anything that changed from the plan.

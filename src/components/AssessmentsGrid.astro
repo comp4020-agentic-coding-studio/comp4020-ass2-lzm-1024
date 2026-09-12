@@ -2,7 +2,7 @@
 import { getPublishedCollection } from "astro-course-university/content";
 import { withBase } from "astro-theme-university/url";
 import { sortByDue } from "../lib/course-content";
-import { formatCourseDate } from "../lib/dates";
+import { formatCourseDateTime } from "../lib/dates";
 
 const assessments = await getPublishedCollection("assessments");
 const visible = sortByDue(assessments);
@@ -18,7 +18,7 @@ const visible = sortByDue(assessments);
         {assessment.data.description && <p class="assessment-description">{assessment.data.description}</p>}
         <p class="assessment-meta">
           <span class="assessment-due">
-            <strong>Due</strong> {formatCourseDate(assessment.data.due)}
+            <strong>Due</strong> {formatCourseDateTime(assessment.data.due)}
           </span>
           <span class="assessment-weight">
             <strong>Weight</strong> {assessment.data.weight}%

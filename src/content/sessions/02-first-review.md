@@ -1,30 +1,27 @@
 ---
-title: First review
+title: Camera control and first review
 description:
-  The second session, where work made in week 1 meets an audience for the first
-  time
+  Review Week 1 footage, then practise deliberate focus, exposure, movement
+  and basic file management.
 week: 2
 date: 2027-03-01
 teachers:
   - idris-fenn
 spec:
-  - work from week 1 is running and can be shown in under two minutes
-  - you can name the one decision you are least sure about
+  - three selected shots from Week 1 are ready to show
+  - you can name one technical decision you are unsure about
 related:
   - assessments/assignment-1
 ---
 
-Placeholder content — this session's material has not been finalised yet.
-
 ## Before the session
 
-Details of what to bring and prepare will be added here.
+Bring three Week 1 shots and your note about the change they show. Check that your files play from the device you bring.
 
 ## In the session
 
-Details of how the session's time is spent will be added here.
+Small groups identify what each sequence communicates. We then test focus, exposure lock, stabilisation and frame rate using a 20-second continuity exercise.
 
 ## Afterwards
 
-Details of what follows the session, including any link to the
-[assignments page](/assessments/), will be added here.
+Draft a one-sentence premise for [Assignment 1](/assessments/assignment-1/). Choose a subject you can approach safely and repeatedly.

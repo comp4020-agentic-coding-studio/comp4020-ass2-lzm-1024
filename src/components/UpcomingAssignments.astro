@@ -2,52 +2,40 @@
 import { getPublishedCollection } from "astro-course-university/content";
 import { withBase } from "astro-theme-university/url";
 import { sortByDue, sortByWeekThenDate } from "../lib/course-content";
-import { formatCourseDate } from "../lib/dates";
+import { formatCourseDate, formatCourseDateTime } from "../lib/dates";
 import CoursePanel from "./CoursePanel.astro";
 
 const assessments = sortByDue(await getPublishedCollection("assessments"));
 const sessions = sortByWeekThenDate(await getPublishedCollection("sessions"));
 const lectures = sortByWeekThenDate(await getPublishedCollection("lectures"));
 
-const now = Date.now();
-// Prefer genuinely upcoming items; when none of the recorded dates are in
-// the future (placeholder content), fall back to the first few overall
-// rather than showing nothing.
-const upcomingAssessments = assessments.filter((a) => a.data.due.getTime() >= now);
-const todo = (upcomingAssessments.length > 0 ? upcomingAssessments : assessments).slice(0, 3);
-
-const upcomingSessions = [...sessions, ...lectures]
-  .filter((item) => item.data.date.getTime() >= now)
-  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
-const comingUp = (upcomingSessions.length > 0 ? upcomingSessions : sortByWeekThenDate([...sessions, ...lectures])).slice(
-  0,
-  3,
-);
+const assignmentSchedule = assessments.slice(0, 3);
+const courseSchedule = sortByWeekThenDate([...sessions, ...lectures]).slice(0, 3);
 ---
 
 <div class="upcoming-rail">
-  <CoursePanel title="To do" headingLevel="h2">
+  <CoursePanel title="Assignment schedule" headingLevel="h2">
     {
-      todo.length > 0 ? (
+      assignmentSchedule.length > 0 ? (
         <ul class="rail-list">
-          {todo.map((assessment) => (
+          {assignmentSchedule.map((assessment) => (
             <li>
               <a href={withBase(`/assessments/${assessment.id}/`)}>{assessment.data.title}</a>
-              <span class="rail-meta">Due {formatCourseDate(assessment.data.due)}</span>
+              <span class="rail-meta">Due {formatCourseDateTime(assessment.data.due)}</span>
             </li>
           ))}
         </ul>
       ) : (
-        <p class="rail-empty">Nothing outstanding.</p>
+        <p class="rail-empty">No assessments have been published yet.</p>
       )
     }
   </CoursePanel>
 
-  <CoursePanel title="Coming up" headingLevel="h2">
+  <CoursePanel title="Course schedule" headingLevel="h2">
     {
-      comingUp.length > 0 ? (
+      courseSchedule.length > 0 ? (
         <ul class="rail-list">
-          {comingUp.map((item) => (
+          {courseSchedule.map((item) => (
             <li>
               <a href={withBase(`/${item.collection}/${item.id}/`)}>{item.data.title}</a>
               <span class="rail-meta">
@@ -57,7 +45,7 @@ const comingUp = (upcomingSessions.length > 0 ? upcomingSessions : sortByWeekThe
           ))}
         </ul>
       ) : (
-        <p class="rail-empty">Nothing scheduled yet.</p>
+        <p class="rail-empty">No teaching activities have been published yet.</p>
       )
     }
   </CoursePanel>

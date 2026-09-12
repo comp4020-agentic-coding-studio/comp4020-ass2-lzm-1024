@@ -5,7 +5,10 @@ import RelatedContent from "astro-course-university/components/RelatedContent.as
 import SpecList from "astro-course-university/components/SpecList.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
 import TeachingTeam from "../../components/TeachingTeam.astro";
+import LearningProgress from "../../components/LearningProgress.astro";
 import { formatCourseDate } from "../../lib/dates";
+import { sortByWeekThenDate } from "../../lib/course-content";
+import { withBase } from "astro-theme-university/url";
 import { graphCollections, sessionLabels } from "../../site-config";
 
 export async function getStaticPaths() {
@@ -15,6 +18,10 @@ export async function getStaticPaths() {
 
 const { session } = Astro.props;
 const { Content } = await render(session);
+const sessions = sortByWeekThenDate(await getPublishedCollection("sessions"));
+const currentIndex = sessions.findIndex((entry) => entry.id === session.id);
+const previous = currentIndex > 0 ? sessions[currentIndex - 1] : undefined;
+const next = currentIndex >= 0 && currentIndex < sessions.length - 1 ? sessions[currentIndex + 1] : undefined;
 ---
 
 <PageLayout
@@ -22,6 +29,11 @@ const { Content } = await render(session);
   description={session.data.description}
 >
   <p><strong>{formatCourseDate(session.data.date)}</strong></p>
+  <LearningProgress
+    itemId={`sessions/${session.id}`}
+    title={`Week ${session.data.week}: ${session.data.title}`}
+    href={Astro.url.pathname}
+  />
   <Content />
   <SpecList spec={session.data.spec}>
     What you bring to the session. Written so a reader can tell whether it has
@@ -29,4 +41,37 @@ const { Content } = await render(session);
   </SpecList>
   <TeachingTeam teachers={session.data.teachers} />
   <RelatedContent entry={session} collections={graphCollections} />
+  <nav class="module-pager" aria-label="Module navigation">
+    {previous ? <a href={withBase(`/sessions/${previous.id}/`)}>← Previous: Week {previous.data.week}</a> : <span />}
+    <a href={withBase(`/sessions/#week-${session.data.week}`)}>Back to Week {session.data.week}</a>
+    {next ? <a href={withBase(`/sessions/${next.id}/`)}>Next: Week {next.data.week} →</a> : <span />}
+  </nav>
 </PageLayout>
+
+<style>
+  .module-pager {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-block-start: 2rem;
+  }
+
+  .module-pager a:nth-child(2) {
+    text-align: center;
+  }
+
+  .module-pager a:last-child {
+    text-align: end;
+  }
+
+  @media (width < 640px) {
+    .module-pager {
+      grid-template-columns: 1fr;
+    }
+
+    .module-pager a:nth-child(2),
+    .module-pager a:last-child {
+      text-align: start;
+    }
+  }
+</style>

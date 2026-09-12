@@ -58,6 +58,7 @@ function isActive(href: string): boolean {
 
   syncCourseNavigation();
   document.addEventListener("astro:page-load", syncCourseNavigation);
+  matchMedia("(width >= 768px)").addEventListener("change", syncCourseNavigation);
 </script>
 
 <style>

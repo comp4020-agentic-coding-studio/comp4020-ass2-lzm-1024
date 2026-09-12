@@ -1,12 +1,12 @@
 ---
 title: Marisol Quaye
 description:
-  The founding convenor, responsible for the course's shape and its weekly
-  teaching programme.
+  Course convenor and documentary editor whose teaching focuses on observation,
+  ethical representation and short-form non-fiction.
 role: convenor
-contact: Contact details will be added once the teaching team is finalised.
+affiliation: School of Screen and Everyday Media, Slop University
+email: marisol.quaye@slop.university
+contact: Use the course discussion board for general questions; email for private or accessibility matters.
 ---
 
-Placeholder directory entry. A people page carries a short bio and whatever a
-student needs to contact the right person for the right thing — this entry
-will be replaced once the teaching team is confirmed.
+Marisol leads lectures, project consultations and the final screening. Her feedback asks students to identify the decision behind each image rather than chase a single “correct” style.

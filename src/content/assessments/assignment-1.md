@@ -1,34 +1,40 @@
 ---
-title: Assignment 1
+title: "Assignment 1: A small change"
 description:
-  The first piece of graded work — a placeholder brief showing the shape every
-  assessment page follows
-week: 6
-due: 2027-04-12T12:00:00+10:00
+  A 60–90 second non-fiction visual story that makes an ordinary change clear
+  through deliberate shooting, sound and editing.
+week: 7
+due: 2027-04-09T17:00:00+10:00
 weight: 40
 marking:
   mode: weighted
   criteria:
-    - name: Response to the brief
-      weight: 60
-    - name: Quality of execution
-      weight: 40
+    - name: Story and point of view
+      weight: 35
+    - name: Image and sound choices
+      weight: 30
+    - name: Editing and technical care
+      weight: 20
+    - name: Reflection and media record
+      weight: 15
 spec:
-  - submitted by the deadline, in the format named below
-  - it does the thing the brief asks for, and a reader can tell that it does
-  - the work is yours, with any assistance declared
+  - a 60–90 second MP4 plays from beginning to end and includes captions
+  - the work shows a real change rather than simply documenting a place
+  - all participants and external media are acknowledged in the production record
 related:
   - final-project
 ---
 
-Placeholder content — this assignment brief has not been finalised yet.
-
 ## The brief
 
-> The problem statement for this assignment will be added here.
+Make a 60–90 second non-fiction video about a small change. The change may be physical, social, temporal or emotional: a room filling, a meal being prepared, a repair taking effect, a commute ending, or a task becoming possible.
 
-A fuller description of the task will be added once the brief is finalised.
+Your film needs a recognisable beginning and ending, at least one wide, medium and close shot, and purposeful sound. You may work alone or with one collaborator, but each student submits an individual reflection.
 
 ## What you submit
 
-Details of the submission format will be added here.
+Upload one H.264 MP4 file, 1080p or lower, with burned-in captions. Also upload a one-page PDF containing a logline, a shot list, a 250-word reflection and a media/consent record. Name files with your student number and `a1`.
+
+## Feedback
+
+You will receive rubric feedback in the course site. Use it to choose one craft priority for the final project.

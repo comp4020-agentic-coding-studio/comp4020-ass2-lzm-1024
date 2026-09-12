@@ -1,24 +1,22 @@
 ---
-title: Week 5 session
+title: Interview and observation
 description:
-  Placeholder entry for the week 5 session — content has not been finalised
-  yet.
+  Plan and record people responsibly, choosing between an interview-led and an
+  observational approach.
 week: 5
 date: 2027-03-22
 teachers:
   - marisol-quaye
 ---
 
-Placeholder content — this session's material has not been finalised yet.
-
 ## Before the session
 
-Details of what to bring and prepare will be added here.
+Bring a draft consent conversation and three open questions, or an observational plan that does not require an interview.
 
 ## In the session
 
-Details of how the session's time is spent will be added here.
+We practise introductions, permissions and cutaway shots. A role-play review identifies when an interview provides useful evidence and when observation says more.
 
 ## Afterwards
 
-Details of what follows the session will be added here.
+Confirm your Assignment 1 subject and seek permission before your main shoot.
