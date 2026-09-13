@@ -1,0 +1,78 @@
+---
+import { withBase } from "astro-theme-university/url";
+import { webCourse } from "../data/slop1512";
+
+interface Props { title: string; description?: string; }
+const { title, description } = Astro.props;
+const root = "/courses/slop1512/";
+const links = [
+  ["Course Home", root], ["Modules", `${root}modules/`], ["Lectures", `${root}lectures/`], ["Assignments", `${root}assignments/`], ["Production guide", ""],
+  ["People", `${root}people/`], ["Policies", `${root}policies/`],
+];
+const path = Astro.url.pathname;
+const displayTitle = title === webCourse.title ? `${webCourse.code}: ${title}` : title;
+---
+
+<div class="web-course-shell">
+  <header class="web-course-header">
+    <a class="all-courses" href={withBase("/dashboard/")}>All courses</a>
+    <a class="course-name" href={withBase(root)}>
+      <strong>{webCourse.code}</strong><span>{webCourse.title}</span><small>{webCourse.session}</small>
+    </a>
+  </header>
+  <div class="web-course-body">
+    <aside class="web-course-nav">
+      <p>Course menu</p>
+      <nav aria-label="Web Design course navigation">
+        {links.map(([label, href]) => href ? <a href={withBase(href)} aria-current={path === withBase(href) ? "page" : undefined}>{label}</a> : <span class="pending-link">{label}</span>)}
+      </nav>
+    </aside>
+    <div class="web-course-content">
+      <h1>{displayTitle}</h1>
+      {description && <p class="lead">{description}</p>}
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* BaseLayout's normal article track is intentionally narrow. A course portal
+     needs the full available width so that navigation and reading content do
+     not compete for the same small column. */
+  :global(.at-main:has(> .web-course-shell)) {
+    grid-column: full;
+    padding: 0;
+  }
+
+  /* Suppress the theme's editorial accent rule. It is useful on an article,
+     but becomes a stray vertical line through a full-width course portal. */
+  :global(body:has(.web-course-shell)::after) {
+    display: none;
+  }
+
+  /* Match the existing SLOP1416 portal chrome rather than the theme's
+     centred editorial header. */
+  :global(body:has(.web-course-shell) > .at-nav > .at-nav-inner) {
+    grid-column: 1 / -1;
+    padding-inline: clamp(1rem, 3vw, 3rem);
+  }
+
+  :global(body:has(.web-course-shell) > .at-nav .at-nav-brand) { transform: none; }
+
+  :global(.at-main:has(> .web-course-shell) > .web-course-shell) {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .web-course-shell { width: 100%; max-width: 90rem; margin-inline: auto; }
+  .web-course-header { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 1rem; padding: 0.75rem var(--at-gutter, 1rem); border-bottom: 1px solid var(--at-border); background: var(--at-bg-elevated, var(--at-bg)); }
+  .all-courses { color: var(--at-text-secondary); font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .all-courses:hover { color: var(--at-text); text-decoration: underline; }
+  .course-name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem 0.7rem; min-width: 0; color: var(--at-text); text-decoration: none; }
+  .course-name strong { font-size: 0.95rem; }.course-name span { font-weight: 700; }.course-name small { color: var(--at-text-secondary); }
+  .web-course-body { display: grid; grid-template-columns: 1fr; }.web-course-nav { padding: 1.4rem 0.8rem; border-bottom: 1px solid var(--at-border); }
+  .web-course-nav p { margin: 0 0 0.55rem; padding-inline: 0.7rem; color: var(--at-text-secondary); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .web-course-nav nav { display: flex; gap: 0.3rem; overflow-x: auto; }.web-course-nav a, .pending-link { padding: 0.55rem 0.7rem; color: var(--at-text); text-decoration: none; white-space: nowrap; }.web-course-nav a:hover, .web-course-nav a[aria-current="page"] { background: var(--at-bg-alt); }.web-course-nav a[aria-current="page"] { border-left: 3px solid var(--at-primary); font-weight: 700; }.pending-link { color: var(--at-text-secondary); cursor: default; }
+  .web-course-content { min-width: 0; padding: clamp(1.5rem, 4vw, 3rem); }.web-course-content h1 { max-width: none; margin: 0; color: var(--at-primary); font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1.08; text-wrap: balance; }.lead { max-width: none; color: var(--at-text-secondary); font-size: 1.1rem; line-height: 1.55; }
+  @media (width >= 768px) { .web-course-body { grid-template-columns: 16rem minmax(0, 1fr); }.web-course-nav { min-height: calc(100vh - 4rem); border-right: 1px solid var(--at-border); border-bottom: 0; }.web-course-nav nav { display: block; }.web-course-nav a, .pending-link { display: block; }.web-course-nav a[aria-current="page"] { border-left: 3px solid var(--at-primary); } }
+</style>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import WebDesignCourseLayout from "../../../components/WebDesignCourseLayout.astro";
+import { siteConfig } from "../../../site-config";
+import { webCourse } from "../../../data/slop1512";
+---
+
+<BaseLayout title={`People — ${webCourse.code} — ${siteConfig.name}`} {...siteConfig}>
+  <WebDesignCourseLayout title="People" description="The team supporting studio work, critique and project development.">
+    <section class="person"><p class="role">Course convenor</p><h2>ZIMU LI</h2><p>ZIMU LI leads lectures, design critiques and final project consultations. Feedback focuses on the relationship between content, audience, interface decisions and evidence from testing.</p><p><a href="mailto:zimu.li@slop.university">zimu.li@slop.university</a></p></section>
+    <section class="person"><p class="role">Studio support</p><h2>Studio tutor</h2><p>To be confirmed. Studio support will be added here before the first teaching week.</p></section>
+  </WebDesignCourseLayout>
+</BaseLayout>
+
+<style>
+  .person { max-width: 48rem; margin-top: 2rem; padding: 1.25rem; border-left: 4px solid var(--at-primary); background: var(--at-bg-alt); }.person + .person { border-left-color: var(--at-border); }.role { margin: 0; color: var(--at-text-secondary); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }.person h2 { margin: 0.4rem 0; }
+</style>

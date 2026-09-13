@@ -1,0 +1,16 @@
+---
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import WebDesignCourseLayout from "../../../components/WebDesignCourseLayout.astro";
+import { siteConfig } from "../../../site-config";
+import { webCourse, webModules } from "../../../data/slop1512";
+---
+
+<BaseLayout title={`Modules — ${webCourse.code} — ${siteConfig.name}`} {...siteConfig}>
+  <WebDesignCourseLayout title="Modules" description="A 12-week path from page structure to a tested, published multi-page site.">
+    <div class="module-list">{webModules.map(([week, title, description]) => <article><p>{week}</p><h2>{title}</h2><p>{description}</p><span>Slides coming later</span></article>)}</div>
+  </WebDesignCourseLayout>
+</BaseLayout>
+
+<style>
+  .module-list { display: grid; gap: 0.8rem; max-width: 62rem; margin-top: 2rem; }.module-list article { display: grid; grid-template-columns: minmax(5.6rem, 0.25fr) 1fr auto; gap: 0.9rem; align-items: start; padding: 1rem 1.1rem; border: 1px solid var(--at-border); border-radius: 0.45rem; }.module-list p { margin: 0; line-height: 1.5; }.module-list article > p:first-child { color: var(--at-primary); font-weight: 700; }.module-list h2 { grid-column: 2; margin: 0; font-size: 1.15rem; }.module-list h2 + p { grid-column: 2; color: var(--at-text-secondary); }.module-list span { grid-column: 3; grid-row: 1 / span 2; color: var(--at-text-secondary); font-size: 0.83rem; white-space: nowrap; } @media (max-width: 40rem) { .module-list article { grid-template-columns: 1fr; }.module-list h2, .module-list h2 + p, .module-list span { grid-column: 1; grid-row: auto; }.module-list span { margin-top: 0.2rem; } }
+</style>

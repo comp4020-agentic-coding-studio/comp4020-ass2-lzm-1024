@@ -6,7 +6,7 @@ description:
 week: 3
 date: 2027-03-08
 teachers:
-  - marisol-quaye
+  - zimu-li
 ---
 
 ## Before the session
@@ -20,3 +20,12 @@ We compare front, side and back light, then make a three-shot exercise that uses
 ## Afterwards
 
 Add a location and time-of-day note to your Assignment 1 plan. Identify the light you need and a backup option.
+
+## Further practice
+
+- [Adobe: colour workflows in Premiere Pro](https://helpx.adobe.com/premiere-pro/using/color-workflows.html) introduces the difference between correcting an image and applying a creative look.
+- [National Film and Sound Archive: learning resources](https://www.nfsa.gov.au/collection/curated/learn) offers Australian screen examples for analysing lighting, colour and visual storytelling.
+
+## Reference viewing
+
+Find two shots of one subject in different light. How does each lighting choice change the subject’s mood or emphasis?

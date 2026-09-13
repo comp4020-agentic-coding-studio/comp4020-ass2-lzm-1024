@@ -4,6 +4,7 @@ import { withBase } from "astro-theme-university/url";
 ---
 
 <header class="course-header">
+  <a class="dashboard-link" href={withBase("/dashboard/")}>All courses</a>
   <a class="course-header-link" href={withBase("/")}>
     <span class="course-header-code">{courseMeta.code}</span>
     <span class="course-header-title">{courseMeta.title}</span>
@@ -31,6 +32,23 @@ import { withBase } from "astro-theme-university/url";
     color: var(--at-text);
     text-decoration: none;
     min-width: 0;
+  }
+
+  .dashboard-link {
+    color: var(--at-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .dashboard-link:hover {
+    color: var(--at-text);
+    text-decoration: underline;
+  }
+
+  .dashboard-link:focus-visible {
+    outline: 2px solid var(--at-primary);
+    outline-offset: 2px;
   }
 
   .course-header-link:hover .course-header-title {

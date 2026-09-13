@@ -1,0 +1,86 @@
+---
+import { withBase } from "astro-theme-university/url";
+
+const slideCount = 20;
+const slides = Array.from({ length: slideCount }, (_, index) =>
+  withBase(`/slide-assets/week-01/slide-${index + 1}.png`),
+);
+const download = withBase("/slide-assets/week-01/SLOP1416-week-01-visual-storytelling.pptx");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Week 1: Seeing before shooting</title>
+  </head>
+  <body>
+    <main class="deck-shell">
+      <header class="deck-header">
+        <a href={withBase("/lectures/week-01/")}>← Back to Week 1 lecture</a>
+        <a href={download} download>Download PowerPoint (.pptx)</a>
+      </header>
+
+      <section class="slide-stage" aria-label="Week 1 slide deck">
+        {
+          slides.map((slide, index) => (
+            <img
+              src={slide}
+              alt={`Slide ${index + 1} of ${slideCount}: Week 1 Visual Storytelling for Short-Form Media`}
+              class:list={["slide-image", { active: index === 0 }]}
+              data-slide={index}
+            />
+          ))
+        }
+      </section>
+
+      <footer class="deck-controls">
+        <button type="button" data-previous aria-label="Previous slide">Previous</button>
+        <p><span data-current>1</span> / {slideCount}</p>
+        <button type="button" data-next aria-label="Next slide">Next</button>
+      </footer>
+    </main>
+
+    <script is:inline define:vars={{ slideCount }}>
+      const slides = [...document.querySelectorAll("[data-slide]")];
+      const current = document.querySelector("[data-current]");
+      const previous = document.querySelector("[data-previous]");
+      const next = document.querySelector("[data-next]");
+      let index = 0;
+
+      function showSlide(nextIndex) {
+        index = Math.max(0, Math.min(slideCount - 1, nextIndex));
+        slides.forEach((slide, slideIndex) => slide.classList.toggle("active", slideIndex === index));
+        if (current) current.textContent = String(index + 1);
+        if (previous) previous.disabled = index === 0;
+        if (next) next.disabled = index === slideCount - 1;
+      }
+
+      previous?.addEventListener("click", () => showSlide(index - 1));
+      next?.addEventListener("click", () => showSlide(index + 1));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") showSlide(index - 1);
+        if (event.key === "ArrowRight") showSlide(index + 1);
+      });
+      showSlide(0);
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(*) { box-sizing: border-box; }
+  :global(body) { margin: 0; color: #f7f4ef; background: #1e252b; font-family: Aptos, Arial, sans-serif; }
+  .deck-shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; gap: 1rem; padding: 1rem; }
+  .deck-header, .deck-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; max-width: 1280px; width: 100%; margin: auto; }
+  .deck-header a { color: #f1dfc0; }
+  .slide-stage { width: min(100%, 1280px); margin: auto; display: grid; place-items: center; }
+  .slide-image { display: none; width: 100%; max-height: calc(100vh - 10rem); object-fit: contain; border-radius: 0.5rem; box-shadow: 0 1rem 3rem rgb(0 0 0 / 0.35); }
+  .slide-image.active { display: block; }
+  .deck-controls { justify-content: center; }
+  .deck-controls p { min-width: 4rem; margin: 0; text-align: center; }
+  button { padding: 0.65rem 1rem; border: 1px solid #f1dfc0; border-radius: 0.3rem; color: #1e252b; background: #f7f4ef; font: inherit; cursor: pointer; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button:focus-visible, a:focus-visible { outline: 3px solid #c7831a; outline-offset: 3px; }
+  @media (max-width: 40rem) { .deck-header { align-items: flex-start; flex-direction: column; } }
+</style>

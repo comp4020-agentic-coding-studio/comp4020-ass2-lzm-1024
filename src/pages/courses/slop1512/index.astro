@@ -1,0 +1,19 @@
+---
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import WebDesignCourseLayout from "../../../components/WebDesignCourseLayout.astro";
+import { siteConfig } from "../../../site-config";
+import { webCourse, webAssignments, webModules } from "../../../data/slop1512";
+---
+
+<BaseLayout title={`${webCourse.code}: ${webCourse.title} — ${siteConfig.name}`} description={webCourse.description} {...siteConfig}>
+  <WebDesignCourseLayout title={webCourse.title} description={webCourse.description}>
+    <section class="hero-note"><p><strong>Course status:</strong> Content portal ready. Lecture decks will be added later.</p></section>
+    <section><h2>What you will learn</h2><ol>{webCourse.outcomes.map((outcome) => <li>{outcome}</li>)}</ol></section>
+    <section class="overview-grid"><article><h2>Next module</h2><p><strong>{webModules[0][0]}: {webModules[0][1]}</strong></p><p>{webModules[0][2]}</p><a href="./modules/">View all 12 modules →</a></article><article><h2>Assessment</h2><p><strong>{webAssignments[0].title}</strong></p><p>Due {webAssignments[0].due} · {webAssignments[0].weight}</p><a href="./assignments/">View assignment briefs →</a></article></section>
+    <section><h2>How the course works</h2><p>Each week combines a short lecture, a hands-on build, a critique or test, and a small piece of project documentation. The final project develops through milestones rather than appearing only at the end of semester.</p></section>
+  </WebDesignCourseLayout>
+</BaseLayout>
+
+<style>
+  section { max-width: 58rem; margin-top: 2.25rem; } h2 { margin-bottom: 0.65rem; color: var(--at-primary); font-size: 1.35rem; } ol { padding-left: 1.4rem; line-height: 1.65; }.hero-note { padding: 1rem 1.15rem; border-left: 4px solid var(--at-primary); background: var(--at-bg-alt); }.hero-note p { margin: 0; }.overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }.overview-grid article { padding: 1.15rem; border: 1px solid var(--at-border); border-radius: 0.5rem; }.overview-grid h2 { margin-top: 0; }.overview-grid a { font-weight: 700; }
+</style>

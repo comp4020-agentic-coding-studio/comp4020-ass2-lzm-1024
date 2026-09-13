@@ -1,0 +1,19 @@
+---
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import WebDesignCourseLayout from "../../../components/WebDesignCourseLayout.astro";
+import { siteConfig } from "../../../site-config";
+import { webCourse } from "../../../data/slop1512";
+---
+
+<BaseLayout title={`Policies — ${webCourse.code} — ${siteConfig.name}`} {...siteConfig}>
+  <WebDesignCourseLayout title="Policies" description="Working agreements for inclusive, accountable web design practice.">
+    <section><h2>Accessibility is part of the build</h2><p>Use semantic HTML, meaningful links, visible keyboard focus, text alternatives for informative images and sufficient colour contrast. Test the final project with keyboard-only navigation and at both a narrow and wide viewport.</p></section>
+    <section><h2>Sources, images and code</h2><p>Record every external image, typeface, code snippet and media asset you use. Include the author, source URL and licence or permission in the project dossier. Do not present another person’s code or design as your own work.</p></section>
+    <section><h2>Feedback and respectful critique</h2><p>Describe what a viewer can see, read or do before recommending a change. Critique the work rather than the person who made it. Explain how a proposed change relates to the intended audience or task.</p></section>
+    <section><h2>Support and extensions</h2><p>Contact ZIMU LI privately for accessibility needs or circumstances that affect your ability to participate. Keep a record of progress and saved versions so that your work remains recoverable.</p></section>
+  </WebDesignCourseLayout>
+</BaseLayout>
+
+<style>
+  section { max-width: 56rem; margin-top: 2rem; } h2 { margin-bottom: 0.45rem; color: var(--at-primary); font-size: 1.25rem; } p { line-height: 1.6; }
+</style>

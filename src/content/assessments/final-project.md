@@ -27,6 +27,10 @@ spec:
 
 Create a 2–3 minute short film about a person, place, process or question that you can approach responsibly. The project may be observational, interview-led, essayistic or process-based, but it must make a specific viewing experience rather than act as a promotional video.
 
+## Download the assignment brief
+
+[Download the Final Project requirements PDF](/assessment-briefs/SLOP1416-final-project-brief.pdf)
+
 Scope the project so it can be shot, edited and revised during the semester. A polished small story is stronger than an unfinished large one.
 
 ## What you submit

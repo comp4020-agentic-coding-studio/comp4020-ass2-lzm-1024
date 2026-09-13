@@ -1,0 +1,124 @@
+---
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import { withBase } from "astro-theme-university/url";
+import { siteConfig } from "../site-config";
+import { courseMeta } from "../course-config";
+
+const courseSlots = [
+  {
+    code: courseMeta.code,
+    title: courseMeta.title,
+    session: `${courseMeta.session}, ${courseMeta.year}`,
+    description: "Your active course portal. Open modules, lectures, assignments and progress.",
+    href: withBase("/"),
+    status: "Active course",
+    tone: "active",
+  },
+  {
+    code: "SLOP1512",
+    title: "Web Design and Interactive Publishing",
+    session: "Semester 1, 2027",
+    description: "A foundation course in HTML, CSS, responsive layouts, interaction and accessible web publishing.",
+    href: withBase("/courses/slop1512/"),
+    status: "Course portal ready",
+    tone: "sand",
+  },
+  {
+    code: "COURSE 03",
+    title: "Course title to be confirmed",
+    session: "Not yet published",
+    description: "Reserve this space for another course dashboard when the course is known.",
+    status: "Coming soon",
+    tone: "moss",
+  },
+  {
+    code: "COURSE 04",
+    title: "Course title to be confirmed",
+    session: "Not yet published",
+    description: "This placeholder keeps the dashboard ready without inventing course content.",
+    status: "Coming soon",
+    tone: "slate",
+  },
+];
+---
+
+<BaseLayout title={`Dashboard — ${siteConfig.name}`} description="Choose a course portal.">
+  <div class="student-dashboard">
+    <header class="dashboard-header">
+      <div>
+        <p class="eyebrow">SLOP / UNIVERSITY</p>
+        <h1>Dashboard</h1>
+        <p class="intro">Choose a course portal. New courses will appear here as they are published.</p>
+      </div>
+      <a class="current-course" href={withBase("/")}>Open current course</a>
+    </header>
+
+    <section aria-labelledby="courses-heading">
+      <div class="section-heading">
+        <h2 id="courses-heading">My courses</h2>
+      <p>2 course portals · 2 reserved course spaces</p>
+      </div>
+      <div class="course-grid">
+        {
+          courseSlots.map((course) =>
+            course.href ? (
+              <a class:list={["course-card", course.tone]} href={course.href}>
+                <span class="status active-status">{course.status}</span>
+                <p class="course-code">{course.code}</p>
+                <h3>{course.title}</h3>
+                <p class="session">{course.session}</p>
+                <p class="description">{course.description}</p>
+                <span class="open-course">Open course <span aria-hidden="true">→</span></span>
+              </a>
+            ) : (
+              <article class:list={["course-card", "placeholder", course.tone]} aria-label={`${course.code}: ${course.status}`}>
+                <span class="status">{course.status}</span>
+                <p class="course-code">{course.code}</p>
+                <h3>{course.title}</h3>
+                <p class="session">{course.session}</p>
+                <p class="description">{course.description}</p>
+                <span class="not-ready">Course selection will be enabled when published</span>
+              </article>
+            ),
+          )
+        }
+      </div>
+    </section>
+
+    <section class="dashboard-note" aria-labelledby="note-heading">
+      <h2 id="note-heading">About these placeholders</h2>
+        <p>Two courses are ready to open. The remaining cards are deliberately empty: when you decide on another course, replace its code, title and description, then connect the card to its own course portal.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .student-dashboard { max-width: 78rem; margin: 0 auto; padding: clamp(1.5rem, 4vw, 4rem) var(--at-gutter, 1rem) 4rem; }
+  .dashboard-header { display: flex; justify-content: space-between; align-items: end; gap: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--at-border); }
+  .eyebrow, .course-code { margin: 0; color: var(--at-text-secondary); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; }
+  h1 { margin: 0.25rem 0 0; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1; }
+  .intro { max-width: 38rem; margin: 1rem 0 0; color: var(--at-text-secondary); }
+  .current-course, .open-course { color: var(--at-primary); font-weight: 700; }
+  .current-course { white-space: nowrap; }
+  .section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 2.25rem 0 1rem; }
+  .section-heading h2, .dashboard-note h2 { margin: 0; font-size: 1.35rem; }
+  .section-heading p { margin: 0; color: var(--at-text-secondary); font-size: 0.9rem; }
+  .course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+  .course-card { position: relative; display: flex; min-height: 19rem; flex-direction: column; padding: 1.35rem; border: 1px solid var(--at-border); border-radius: 0.65rem; background: var(--at-bg-elevated, var(--at-bg)); color: var(--at-text); text-decoration: none; box-shadow: 0 0.2rem 0.8rem rgb(0 0 0 / 0.06); }
+  a.course-card:hover { transform: translateY(-0.2rem); border-color: var(--at-primary); box-shadow: 0 0.65rem 1.2rem rgb(0 0 0 / 0.1); }
+  a.course-card:focus-visible, .current-course:focus-visible { outline: 3px solid var(--at-primary); outline-offset: 3px; }
+  .course-card::before { content: ""; display: block; height: 0.5rem; margin: -1.35rem -1.35rem 1.35rem; border-radius: 0.65rem 0.65rem 0 0; background: var(--accent); }
+  .active { --accent: #c7831a; }.sand { --accent: #b68a42; }.moss { --accent: #52665a; }.slate { --accent: #44515c; }
+  .status { align-self: flex-start; margin-bottom: 1.15rem; padding: 0.24rem 0.55rem; border-radius: 99rem; background: var(--at-bg-alt); color: var(--at-text-secondary); font-size: 0.78rem; font-weight: 700; }
+  .active-status { background: #f1dfc0; color: #62420d; }
+  .course-card h3 { margin: 0.45rem 0 0; font-size: 1.25rem; line-height: 1.2; }
+  .session { margin: 0.45rem 0 0; color: var(--at-text-secondary); font-size: 0.92rem; }
+  .description { margin: 1rem 0; color: var(--at-text-secondary); line-height: 1.5; }
+  .open-course, .not-ready { margin-top: auto; font-size: 0.92rem; }
+  .not-ready { color: var(--at-text-secondary); }
+  .placeholder { opacity: 0.82; }
+  .dashboard-note { margin-top: 2rem; padding: 1.25rem 1.4rem; border-left: 4px solid var(--at-primary); background: var(--at-bg-alt); }
+  .dashboard-note p { max-width: 52rem; margin: 0.55rem 0 0; }
+  @media (max-width: 40rem) { .dashboard-header, .section-heading { align-items: flex-start; flex-direction: column; gap: 0.75rem; } }
+  @media (prefers-reduced-motion: reduce) { a.course-card:hover { transform: none; } }
+</style>

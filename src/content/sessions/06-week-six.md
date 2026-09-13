@@ -20,3 +20,12 @@ Students map setup, development and resolution as images. We review shot lists f
 ## Afterwards
 
 Complete your first shoot before Week 7. Keep a production log, including anything that changed from the plan.
+
+## Further practice
+
+- [StudioBinder: shot list guide](https://www.studiobinder.com/blog/what-is-a-shot-list-example/) shows how a shot list turns a premise into specific, recordable coverage.
+- [W3C: planning accessible audio and video](https://www.w3.org/WAI/media/av/planning/) explains why accessibility decisions belong in a script and plan, not only at export.
+
+## Reference viewing
+
+Pick a one-minute sequence and sketch six frames. Can you identify setup, development and a stopping point?

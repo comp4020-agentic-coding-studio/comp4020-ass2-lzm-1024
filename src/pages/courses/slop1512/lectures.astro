@@ -1,0 +1,30 @@
+---
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import { withBase } from "astro-theme-university/url";
+import WebDesignCourseLayout from "../../../components/WebDesignCourseLayout.astro";
+import { siteConfig } from "../../../site-config";
+import { webCourse, webLectures } from "../../../data/slop1512";
+---
+
+<BaseLayout title={`Lectures — ${webCourse.code} — ${siteConfig.name}`} {...siteConfig}>
+  <WebDesignCourseLayout title="Lectures" description="One advanced lecture deck per week, each with real images, worked examples and a studio task.">
+    {
+      webLectures.map((lecture) => (
+        <article class="lecture-card">
+          <p class="week">Week {lecture.week}</p>
+          <h2>{lecture.title}</h2>
+          <p>{`This ${lecture.slideCount}-slide lecture ${lecture.description}`}</p>
+          <p><a href={withBase(`/slop1512-week-${String(lecture.week).padStart(2, "0")}/${lecture.file}`)} download>Download Week {lecture.week} PowerPoint (.pptx)</a></p>
+        </article>
+      ))
+    }
+  </WebDesignCourseLayout>
+</BaseLayout>
+
+<style>
+  .lecture-card { max-width: 56rem; margin-top: 2rem; padding: 1.35rem; border: 1px solid var(--at-border); border-radius: 0.55rem; }
+  .week { margin: 0; color: var(--at-primary); font-weight: 700; }
+  .lecture-card h2 { margin: 0.45rem 0; font-size: 1.4rem; }
+  .lecture-card p { line-height: 1.6; }
+  .lecture-card a { font-weight: 700; }
+</style>
