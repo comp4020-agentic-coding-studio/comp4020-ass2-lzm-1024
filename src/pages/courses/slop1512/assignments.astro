@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import { withBase } from "astro-theme-university/url";
 import WebDesignCourseLayout from "../../../components/WebDesignCourseLayout.astro";
 import { siteConfig } from "../../../site-config";
 import { webAssignments, webCourse } from "../../../data/slop1512";
@@ -7,7 +8,7 @@ import { webAssignments, webCourse } from "../../../data/slop1512";
 
 <BaseLayout title={`Assignments — ${webCourse.code} — ${siteConfig.name}`} {...siteConfig}>
   <WebDesignCourseLayout title="Assignments" description="Four connected assignments assess structure, visual design, accessible interaction and a final multi-page publication.">
-    <div class="assignment-list">{webAssignments.map((assignment, index) => <article><header><div><h2>{assignment.title}</h2><p>Due {assignment.due}</p></div><strong>{assignment.weight}</strong></header><p>{assignment.brief}</p><h3>What you submit</h3><p>{assignment.submit}</p><h3>Marking focuses on</h3><ul>{assignment.criteria.map((criterion) => <li>{criterion}</li>)}</ul><p class="brief-note"><a href={`/assessment-briefs/slop1512/SLOP1512-assignment-${index + 1}-brief.pdf`} download>Download assignment requirements PDF</a></p></article>)}</div>
+    <div class="assignment-list">{webAssignments.map((assignment, index) => <article><header><div><h2>{assignment.title}</h2><p>Due {assignment.due}</p></div><strong>{assignment.weight}</strong></header><p>{assignment.brief}</p><h3>What you submit</h3><p>{assignment.submit}</p><h3>Marking focuses on</h3><ul>{assignment.criteria.map((criterion) => <li>{criterion}</li>)}</ul><p class="brief-note"><a href={withBase(`/assessment-briefs/slop1512/SLOP1512-assignment-${index + 1}-brief.pdf`)} download>Download assignment requirements PDF</a></p></article>)}</div>
   </WebDesignCourseLayout>
 </BaseLayout>
 

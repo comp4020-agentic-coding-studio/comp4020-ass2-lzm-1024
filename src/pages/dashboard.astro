@@ -11,7 +11,6 @@ const courseSlots = [
     session: `${courseMeta.session}, ${courseMeta.year}`,
     description: "Your active course portal. Open modules, lectures, assignments and progress.",
     href: withBase("/"),
-    status: "Active course",
     tone: "active",
   },
   {
@@ -20,7 +19,6 @@ const courseSlots = [
     session: "Semester 1, 2027",
     description: "A foundation course in HTML, CSS, responsive layouts, interaction and accessible web publishing.",
     href: withBase("/courses/slop1512/"),
-    status: "Course portal ready",
     tone: "sand",
   },
   {
@@ -63,7 +61,6 @@ const courseSlots = [
           courseSlots.map((course) =>
             course.href ? (
               <a class:list={["course-card", course.tone]} href={course.href}>
-                <span class="status active-status">{course.status}</span>
                 <p class="course-code">{course.code}</p>
                 <h3>{course.title}</h3>
                 <p class="session">{course.session}</p>
