@@ -14,7 +14,7 @@ import { webCourse, webLectures } from "../../../data/slop1512";
           <p class="week">Week {lecture.week}</p>
           <h2>{lecture.title}</h2>
           <p>{`This ${lecture.slideCount}-slide lecture ${lecture.description}`}</p>
-          <p><a href={withBase(`/slop1512-week-${String(lecture.week).padStart(2, "0")}/${lecture.file}`)} download>Download Week {lecture.week} PowerPoint (.pptx)</a></p>
+          <p><a href={withBase(`/slop1512-week-${String(lecture.week).padStart(2, "0")}/${lecture.file}`)} download>Download Week {lecture.week} lecture PDF</a></p>
         </article>
       ))
     }

@@ -33,7 +33,7 @@ export const webLectures = [
     week: 1,
     title: "The Web as a Publishing Medium",
     slideCount: 36,
-    file: "SLOP1512-week-01-web-as-publishing-v2.pptx",
+    file: "SLOP1512-week-01-web-as-publishing-v2.pdf",
     description:
       "introduces the course, its 12-week learning path, four assessment tasks, and the Week 1 foundations of document structure, semantic HTML, audiences, headings, landmarks, links, images and source records.",
   },
@@ -41,7 +41,7 @@ export const webLectures = [
     week: 2,
     title: "HTML and Semantic Structure",
     slideCount: 30,
-    file: "SLOP1512-week-02-semantic-html-advanced.pptx",
+    file: "SLOP1512-week-02-semantic-html-advanced.pdf",
     description:
       "works through landmarks, heading hierarchy, lists, figures and meaningful link text with real markup examples, showing how a page reads as a document before any CSS is applied.",
   },
@@ -49,7 +49,7 @@ export const webLectures = [
     week: 3,
     title: "Typography and Visual Hierarchy",
     slideCount: 28,
-    file: "SLOP1512-week-03-typography-and-visual-hierarchy-deep.pptx",
+    file: "SLOP1512-week-03-typography-and-visual-hierarchy-deep.pdf",
     description:
       "covers letterform anatomy, serif vs sans-serif choice, type scale and line length, WCAG-referenced contrast, and the print-to-screen history from Gutenberg's press through Linotype to web fonts.",
   },
@@ -57,7 +57,7 @@ export const webLectures = [
     week: 4,
     title: "Layout with CSS",
     slideCount: 30,
-    file: "SLOP1512-week-04-layout-with-css-advanced.pptx",
+    file: "SLOP1512-week-04-layout-with-css-advanced.pdf",
     description:
       "compares normal flow, flexbox and grid, works through container queries and a reading-column vs multi-column layout, and diagnoses three named layout bugs with DevTools.",
   },
@@ -65,7 +65,7 @@ export const webLectures = [
     week: 5,
     title: "Colour, Image and Identity",
     slideCount: 27,
-    file: "SLOP1512-week-05-colour-image-and-identity-advanced.pptx",
+    file: "SLOP1512-week-05-colour-image-and-identity-advanced.pdf",
     description:
       "builds a restrained colour system with the real WCAG luminance/contrast formula worked against brand tokens, then covers colour-blind-safe palettes, responsive images (srcset/picture) and an alt-text decision tree.",
   },
@@ -73,7 +73,7 @@ export const webLectures = [
     week: 6,
     title: "Responsive Design",
     slideCount: 29,
-    file: "SLOP1512-week-06-responsive-design-advanced.pptx",
+    file: "SLOP1512-week-06-responsive-design-advanced.pdf",
     description:
       "works mobile-first through media queries, content-driven breakpoints, fluid layout, flexbox/grid and container queries, clamp() typography, and small-screen navigation without hiding essential content.",
   },
@@ -81,7 +81,7 @@ export const webLectures = [
     week: 7,
     title: "Interaction and Forms",
     slideCount: 30,
-    file: "SLOP1512-week-07-interaction-and-forms-advanced.pptx",
+    file: "SLOP1512-week-07-interaction-and-forms-advanced.pdf",
     description:
       "builds accessible forms and interactive widgets with real ARIA patterns — labels, fieldset/legend, focus order, :focus-visible, error handling, live regions, disclosure and modal focus-trap — plus a keyboard test protocol.",
   },
@@ -89,7 +89,7 @@ export const webLectures = [
     week: 8,
     title: "Accessibility Review",
     slideCount: 28,
-    file: "SLOP1512-week-08-accessibility-review-advanced.pptx",
+    file: "SLOP1512-week-08-accessibility-review-advanced.pdf",
     description:
       "works through a practical, WCAG 2.2-referenced audit covering heading structure, colour contrast, focus visibility, text alternatives and motion settings, plus severity triage and a studio audit brief.",
   },
@@ -97,7 +97,7 @@ export const webLectures = [
     week: 9,
     title: "Content Systems and Multi-Page Sites",
     slideCount: 30,
-    file: "SLOP1512-week-09-content-systems-and-multi-page-sites-advanced.pptx",
+    file: "SLOP1512-week-09-content-systems-and-multi-page-sites-advanced.pdf",
     description:
       "plans information architecture for a small multi-page site — navigation systems, breadcrumbs, sitemaps and reusable page templates — so structure holds together as content grows.",
   },
@@ -105,7 +105,7 @@ export const webLectures = [
     week: 10,
     title: "User Testing and Revision",
     slideCount: 27,
-    file: "SLOP1512-week-10-user-testing-and-revision-advanced.pptx",
+    file: "SLOP1512-week-10-user-testing-and-revision-advanced.pdf",
     description:
       "runs lightweight usability methods (five-second test, first-click test, think-aloud), an observation template and severity triage, then turns a specific observed moment into a justified revision.",
   },
@@ -113,7 +113,7 @@ export const webLectures = [
     week: 11,
     title: "Publication and Performance",
     slideCount: 30,
-    file: "SLOP1512-week-11-publication-and-performance-advanced.pptx",
+    file: "SLOP1512-week-11-publication-and-performance-advanced.pdf",
     description:
       "checks assets, image formats and compression, loading strategy, metadata and Open Graph tags, and Core Web Vitals (LCP/INP/CLS) via Lighthouse, against a consolidated pre-publish checklist.",
   },
@@ -121,7 +121,7 @@ export const webLectures = [
     week: 12,
     title: "Portfolio Review",
     slideCount: 30,
-    file: "SLOP1512-week-12-portfolio-review-advanced.pptx",
+    file: "SLOP1512-week-12-portfolio-review-advanced.pdf",
     description:
       "presents the final site, explains the design system's decisions, and reflects on the testing and revision evidence gathered across the course.",
   },
